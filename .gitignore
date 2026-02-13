@@ -1,4 +1,6 @@
 .vercel
 .DS_Store
 *.zip
+_archive/
+docs/legacy/
 
