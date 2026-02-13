@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault - Draftbook</title>
+  <link rel="stylesheet" href="./vault.css" />
+</head>
+<body class="draftbook-page">
+  <main class="wrap">
+    <header class="hero card">
+      <h1><span>草稿本</span></h1>
+      <p>什么都能记：提示词、玩法、结局、灵感片段。</p>
+      <p><a class="back-home" href="./vault.html">← 返回 My Vault</a></p>
+    </header>
+
+    <section class="card">
+      <div class="draft-toolbar">
+        <button id="addDraft" class="ghost">+ 新增草稿</button>
+      </div>
+      <div id="draftList" class="draft-list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden">已复制</div>
+  <script src="./vault.js"></script>
+</body>
+</html>

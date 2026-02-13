@@ -1,0 +1,22 @@
+:root{--bg:#0b0b0d;--card:#131316;--line:#2e2e35;--text:#f2f2f5;--muted:#b5b7bf;--accent:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top right,#1c1c21 0%,#0b0b0d 45%,#060607 100%);color:var(--text);font-family:'Avenir Next','PingFang SC',sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:16px}.card{background:linear-gradient(160deg,#121216,#191920);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 22px rgba(0,0,0,.30)}
+.hero h1{margin:0 0 6px;color:#ffffff;display:flex;align-items:center;gap:10px;font-family:'Baskerville','Times New Roman',serif;font-size:30px;font-weight:600;letter-spacing:.3px}.hero p{margin:0;color:var(--muted);font-size:14px}
+.brand-icon{width:34px;height:34px;border-radius:8px;border:1px solid #4a4c53;object-fit:cover}
+.lang-row{display:flex;justify-content:flex-end}.ghost{background:transparent;color:#e7e8ee;border:1px solid #4f525c;border-radius:10px;padding:4px 10px;cursor:pointer}.mini{font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.entry{text-decoration:none;color:inherit;transition:.2s transform,.2s border-color;padding:12px 13px}
+.entry h2{margin:0 0 5px;color:#f4f4f8;font-size:18px;font-weight:600}.entry p{margin:0 0 7px;color:#c0c2ca;line-height:1.5;font-size:13px}.entry span{font-size:12px;color:#e7e8ee}
+.entry:hover{transform:translateY(-1px);border-color:#70737e}
+.story-entry{opacity:.82;border-style:dashed;cursor:not-allowed}
+.story-entry:hover{transform:none;border-color:#5d6069}
+.vault-entry{display:block;text-decoration:none;color:inherit;margin-top:10px;padding:9px 12px;border-color:#8f95a8;background:linear-gradient(150deg,#1c2132,#2a324f);box-shadow:0 8px 22px rgba(93,120,255,.2)}
+.vault-entry:hover{transform:translateY(-1px);border-color:#b7c0ff}
+.vault-title{font-size:15px;font-weight:700;color:#f4f6ff;line-height:1.2}
+.vault-sub{font-size:12px;color:#d3dbff;margin-top:4px;line-height:1.45}
+.roadmap-card{margin-top:10px}
+.roadmap-card h2{margin:0 0 6px;color:#f0f1f6;font-size:17px}
+.roadmap-card p{margin:0;color:#c7c9d1;font-size:13px;line-height:1.55}
+.tiny{margin:8px 4px 0;color:#979aa4;font-size:11px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}

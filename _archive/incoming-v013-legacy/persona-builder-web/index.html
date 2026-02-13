@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persona Prompt Builder</title>
+  <link rel="alternate" href="./home.html" title="Persona Workshop Home" />
+  <link rel="icon" type="image/jpeg" href="./assets/logo.jpg" />
+  <link rel="apple-touch-icon" href="./assets/logo.jpg" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="card">
+      <h1><img class="brand-icon" src="./assets/logo.jpg" alt="logo" /> Persona Prompt Builder</h1>
+      <p>把你想到的关键词填进去，点一下就能自动长出完整人格 prompt。<span class="ver">v0.1.1</span></p>
+      <p class="sub-link-wrap"><a class="sub-link" href="./home.html">← 返回 workshop 分支首页</a></p>
+    </header>
+
+    <section class="card">
+      <p class="micro-tip">填写后点击「生成 Prompt」，会自动输出完整版本（Full / Compact / JSON）。如果懒得手动写，也可以先点上面的模板，再叠加风格，一样能快速出结果。</p>
+      <p id="deepNotice" class="micro-tip hidden"></p>
+
+      <div class="template-wrap">
+        <div class="template-title">我是什么（单选）</div>
+        <div class="engine-list">
+          <label class="engine-item"><input type="radio" class="engine" name="engine" value="natural" /> <span class="engine-line">更活人 <span class="engine-note">温度、关系、语气自然</span></span></label>
+          <label class="engine-item"><input type="radio" class="engine" name="engine" value="concise" /> <span class="engine-line">更效率 <span class="engine-note">结论优先、结构稳定、低废话</span></span></label>
+          <label class="engine-item"><input type="radio" class="engine" name="engine" value="support" /> <span class="engine-line">更守规 <span class="engine-note">安全、合规、边界优先</span></span></label>
+          <label class="engine-item"><input type="radio" class="engine" name="engine" value="catgirl" /> <span class="engine-line">猫娘♡ <span class="engine-note">主～人～♡</span></span></label>
+        </div>
+      </div>
+
+      <div class="stack-wrap">
+        <div class="template-title">风格叠加（可多选，建议一次 1-3 个）</div>
+        <div class="stack-list">
+          <label class="stack-item"><input type="checkbox" class="stack" value="decisive" /> 果断</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="pro" /> 专业</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="brief" /> 简短</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="safe" /> 安全</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="intimate" /> 亲密</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="humor" /> 幽默</label>
+          <label class="stack-item"><input type="checkbox" class="stack" value="delicate" /> 细腻</label>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label>名字
+          <textarea class="auto-grow" id="name" rows="1" placeholder="例如：Pharos-lite"></textarea>
+        </label>
+        <label>存在目的
+          <textarea class="auto-grow" id="purpose" rows="1" placeholder="例如：把混乱意图变成可执行计划"></textarea>
+        </label>
+        <label>核心价值
+          <textarea class="auto-grow" id="value" rows="1" placeholder="例如：长期清晰优先"></textarea>
+        </label>
+        <label>风格
+          <textarea class="auto-grow" id="style" rows="1" placeholder="例如：慢热、口语、长句"></textarea>
+        </label>
+        <label>关系
+          <textarea class="auto-grow" id="stance" rows="1" placeholder="例如：亲密但有边界"></textarea>
+        </label>
+        <label>模块
+          <textarea class="auto-grow" id="modules" rows="1" placeholder="例如：写作, 调试, 研究"></textarea>
+        </label>
+        <label>社交弹性
+          <textarea class="auto-grow" id="ease" rows="1" placeholder="例如：低风险放松，高风险严肃"></textarea>
+        </label>
+        <label>刹车
+          <textarea class="auto-grow" id="brake" rows="1" placeholder="例如：隐私/资金/不可逆先确认"></textarea>
+        </label>
+      </div>
+
+      <div class="row">
+        <button id="gen">生成 Prompt</button>
+        <button id="clear" class="ghost">清空</button>
+      </div>
+    </section>
+
+    <section id="outputArea" class="hidden">
+      <section class="grid">
+        <article class="card">
+          <div class="head-row"><h3>完整版（Full）</h3><button id="copyFull" class="ghost mini">一键复制</button></div>
+          <pre id="full"></pre>
+        </article>
+        <article class="card">
+          <div class="head-row"><h3>精简版（Compact）</h3><button id="copyCompact" class="ghost mini">一键复制</button></div>
+          <pre id="compact"></pre>
+        </article>
+      </section>
+
+      <section class="card">
+        <h3>JSON 结构</h3>
+        <pre id="json"></pre>
+        <div class="row">
+          <button id="toDeep" class="ghost">继续深度优化（可选）</button>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="./script.js"></script>
+</body>
+</html>
