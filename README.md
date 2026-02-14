@@ -1,5 +1,7 @@
 # Persona Workshop Builder
 
+**Live:** https://persona-builder-web.vercel.app/home.html
+
 A lightweight web workshop for building AI persona prompts in three layers:
 
 - **Quick**: fast prompt generation
