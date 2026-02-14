@@ -1,0 +1,24 @@
+:root{--bg:#0f0f12;--bg2:#17171d;--card:#141419;--card2:#1b1b22;--text:#f4efe2;--muted:#b7aa8a;--gold:#b89f66;--gold2:#d8c594;--line:#353029;--btn1:#dcc388;--btn2:#9f8551;--btnText:#171105}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Avenir Next','SF Pro Text','PingFang SC','Helvetica Neue',sans-serif;background:radial-gradient(circle at top right,#262018 0%,var(--bg) 40%,#0a0a0d 100%);color:var(--text)}
+.wrap{max-width:1140px;margin:0 auto;padding:18px}
+.card{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(240,214,122,.08);margin-bottom:12px}
+.hero h1{margin:0 0 8px;color:var(--gold2);font-family:'Baskerville','Times New Roman','STSong','Songti SC',serif;font-size:34px;font-weight:600;letter-spacing:.4px;line-height:1.15}
+.hero p{margin:0 0 8px;color:var(--muted);line-height:1.6}
+.back-home{font-size:12px;color:#a9925a;text-decoration:underline;text-decoration-color:#7e6a38;text-underline-offset:3px;opacity:.9}
+.back-home:hover{color:#d9bf78;opacity:1}
+h2{margin:0 0 10px;color:var(--gold2);font-size:20px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--gold2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.load-inline{align-items:center}
+.pick-select{flex:1;min-width:240px}
+textarea,select{width:100%;border:1px solid #4a3d24;background:#101015;color:var(--text);border-radius:12px;padding:10px 12px;font-size:14px;outline:none;line-height:1.45}
+textarea{min-height:84px;resize:vertical}
+textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(212,175,55,.2)}
+button{border:1px solid #8a6720;background:linear-gradient(135deg,var(--btn1),var(--btn2));color:var(--btnText);padding:10px 15px;border-radius:11px;font-weight:800;cursor:pointer;transition:.2s transform,.2s filter,.2s box-shadow;box-shadow:0 6px 14px rgba(212,175,55,.25)}
+button:hover{transform:translateY(-1px);filter:brightness(1.08);box-shadow:0 10px 20px rgba(212,175,55,.3)}
+button:active{transform:translateY(0)}
+.ghost{background:transparent;color:var(--gold2);border:1px solid #7a6224}
+pre{white-space:pre-wrap;word-break:break-word;background:#0f1015;border:1px solid #3b3221;border-radius:12px;padding:12px;min-height:160px;color:#f1e8cf}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.hero h1{font-size:28px}.pick-select{min-width:0}}

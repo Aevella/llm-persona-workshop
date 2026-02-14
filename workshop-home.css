@@ -9,6 +9,10 @@ body{margin:0;background:radial-gradient(circle at top right,#1c1c21 0%,#0b0b0d 
 .entry{text-decoration:none;color:inherit;transition:.2s transform,.2s border-color;padding:12px 13px}
 .entry h2{margin:0 0 5px;color:#f4f4f8;font-size:18px;font-weight:600}.entry p{margin:0 0 7px;color:#c0c2ca;line-height:1.5;font-size:13px}.entry span{font-size:12px;color:#e7e8ee}
 .entry:hover{transform:translateY(-1px);border-color:#70737e}
+.intimacy-entry{cursor:pointer;position:relative;border:1px solid #70737e;background:linear-gradient(160deg,#15161a,#1b1c22)}
+.intimacy-entry::after{content:'INTIMACY';position:absolute;right:12px;top:10px;font-size:10px;color:#d7dbe6;letter-spacing:.9px;text-transform:uppercase}
+.intimacy-entry h2,.intimacy-entry p,.intimacy-entry span{color:#f0f2f8}
+.intimacy-entry:hover{transform:translateY(-1px);border-color:#a4a9b8;box-shadow:0 10px 24px rgba(181,190,220,.16)}
 .story-entry{opacity:.82;border-style:dashed;cursor:not-allowed}
 .story-entry:hover{transform:none;border-color:#5d6069}
 .vault-entry{display:block;text-decoration:none;color:inherit;margin-top:10px;padding:9px 12px;border-color:#8f95a8;background:linear-gradient(150deg,#1c2132,#2a324f);box-shadow:0 8px 22px rgba(93,120,255,.2)}
