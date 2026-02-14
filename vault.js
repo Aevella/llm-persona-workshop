@@ -10,6 +10,7 @@ function applyI18n(){
   const b=document.getElementById('langToggleVault'); if(b) b.textContent=lang()==='zh'?'EN':'中';
 }
 
+const PB_SHARED=window.PB_SHARED||{};
 const toast=document.getElementById('toast');
 function showToast(text=t('copied')){
   if(!toast) return;
@@ -20,6 +21,14 @@ function showToast(text=t('copied')){
   toast.classList.add('show');
   clearTimeout(showToast._t);
   showToast._t=setTimeout(()=>toast.classList.add('hidden'),1100);
+}
+
+
+function lsSet(key,val){
+  if(PB_SHARED.safeSetItem){
+    return PB_SHARED.safeSetItem(key,val,{onError:()=>showToast(lang()==='zh'?'保存失败，缓存可能已满':'Save failed, storage may be full')});
+  }
+  try{ localStorage.setItem(key,val); return true; }catch(e){ showToast(lang()==='zh'?'保存失败，缓存可能已满':'Save failed, storage may be full'); return false; }
 }
 
 function escapeHtml(s=''){
@@ -44,7 +53,7 @@ function readPersonaList(){
 }
 
 function writePersonaList(arr){
-  try{ localStorage.setItem('pb_persona_library_v1', JSON.stringify(arr||[])); }catch(e){}
+  lsSet('pb_persona_library_v1', JSON.stringify(arr||[]));
 }
 
 function renderPersonaList(){
@@ -128,20 +137,20 @@ function readDraftList(){
       if(!migrated){
         const hasLegacy=arr.some(x=>DRAFT_LEGACY_TITLES.includes((x?.title||'')));
         if(hasLegacy){
-          localStorage.setItem('pb_draft_migrated_v1','1');
+          lsSet('pb_draft_migrated_v1','1');
           return DRAFT_DEFAULTS.map(x=>({...x}));
         }
-        localStorage.setItem('pb_draft_migrated_v1','1');
+        lsSet('pb_draft_migrated_v1','1');
       }
       return arr;
     }
   }catch(e){}
-  localStorage.setItem('pb_draft_migrated_v1','1');
+  lsSet('pb_draft_migrated_v1','1');
   return DRAFT_DEFAULTS.map(x=>({...x}));
 }
 
 function writeDraftList(arr){
-  try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(arr||[])); }catch(e){}
+  lsSet(DRAFT_KEY, JSON.stringify(arr||[]));
 }
 
 function renderDraftList(){
@@ -321,4 +330,4 @@ if(document.getElementById('draftList')){
 }
 
 applyI18n();
-document.getElementById('langToggleVault')?.addEventListener('click',()=>{ localStorage.setItem('pb_lang', lang()==='zh'?'en':'zh'); applyI18n(); if(document.getElementById('personaList')) renderPersonaList(); if(document.getElementById('draftList')) renderDraftList(); });
+document.getElementById('langToggleVault')?.addEventListener('click',()=>{ lsSet('pb_lang', lang()==='zh'?'en':'zh'); applyI18n(); if(document.getElementById('personaList')) renderPersonaList(); if(document.getElementById('draftList')) renderDraftList(); });
