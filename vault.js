@@ -1,5 +1,17 @@
+const I18N_VAULT={
+  zh:{copied:'已复制',saved:'已保存',deleted:'已删除',sortUpdated:'排序已更新',emptyPersona:'还没有保存的人格。去 Quick / Deep / Agent 点「保存到人格库」试试。',noSummary:'（暂无摘要）',titleCopy:'复制',titleExpand:'展开',titleDelete:'删除',confirmDeletePersona:'确认删除这条人格吗？此操作不可恢复。',draftTitlePh:'标题（可选）',draftBodyPh:'写点什么…',btnSave:'保存',btnCopy:'复制',btnDelete:'删除',confirmDeleteDraft:'确认删除这条草稿吗？',vaultTitle:'My Vault',vaultSub:'这是你的资产大厅：完整人格与模块碎片分开管理。',backWorkshop:'← 返回 Workshop',roomPersonaTitle:'人格库（完整）',roomPersonaDesc:'存整套人格提示词，一条就是一个完整系统。',roomDraftTitle:'草稿本',roomDraftDesc:'什么都能记：提示词、玩法、结局、灵感片段。可编辑、复制、删除、排序。',enterRoom:'进入房间 →',personaSub:'点右上角 ✓ 直接复制完整人格稿。',backVault:'← 返回 My Vault',draftSub:'什么都能记：提示词、玩法、结局、灵感片段。',addDraft:'+ 新增草稿'},
+  en:{copied:'Copied',saved:'Saved',deleted:'Deleted',sortUpdated:'Order updated',emptyPersona:'No saved persona yet. Go to Quick / Deep / Agent and click “Save to Persona Vault”.',noSummary:'(No summary)',titleCopy:'Copy',titleExpand:'Expand',titleDelete:'Delete',confirmDeletePersona:'Delete this persona? This cannot be undone.',draftTitlePh:'Title (optional)',draftBodyPh:'Write something…',btnSave:'Save',btnCopy:'Copy',btnDelete:'Delete',confirmDeleteDraft:'Delete this draft?',vaultTitle:'My Vault',vaultSub:'Your asset hall: full personas and module snippets are managed separately.',backWorkshop:'← Back to Workshop',roomPersonaTitle:'Persona Vault (Full)',roomPersonaDesc:'Store complete persona prompts. One entry = one complete system.',roomDraftTitle:'Draftbook',roomDraftDesc:'Save anything: prompts,玩法, endings, idea snippets. Editable, copyable, deletable, sortable.',enterRoom:'Enter room →',personaSub:'Click ✓ at top-right to copy the full persona text.',backVault:'← Back to My Vault',draftSub:'Save anything: prompts,玩法, endings, idea snippets.',addDraft:'+ New Draft'}
+};
+function lang(){ return localStorage.getItem('pb_lang')||((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en'); }
+function t(k){ const d=I18N_VAULT[lang()]||I18N_VAULT.zh; return d[k]||k; }
+function applyI18n(){
+  const d=I18N_VAULT[lang()]||I18N_VAULT.zh;
+  document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
+  const b=document.getElementById('langToggleVault'); if(b) b.textContent=lang()==='zh'?'EN':'中';
+}
+
 const toast=document.getElementById('toast');
-function showToast(text='已复制'){
+function showToast(text=t('copied')){
   if(!toast) return;
   toast.textContent=text;
   toast.classList.remove('hidden');
@@ -35,11 +47,11 @@ function renderPersonaList(){
   if(!box) return;
   const arr=readPersonaList();
   if(!arr.length){
-    box.innerHTML='<div class="empty">还没有保存的人格。去 Quick / Deep / Agent 点「保存到人格库」试试。</div>';
+    box.innerHTML=`<div class="empty">${t('emptyPersona')}</div>`;
     return;
   }
   box.innerHTML=arr.map(it=>{
-    const t=escapeHtml(it.title||'Untitled Persona');
+    const titleEsc=escapeHtml(it.title||'Untitled Persona');
     const s=escapeHtml(it.summary||'');
     const srcRaw=escapeHtml(it.source||'manual');
     const srcLabel=srcRaw==='quick'?'Quick':srcRaw==='deep'?'Deep':srcRaw==='agent'?'Agent':'Manual';
@@ -48,12 +60,12 @@ function renderPersonaList(){
     return `<article class="item ${srcClass}" data-id="${it.id}" data-copy="${encodeURIComponent(it.content||'')}">
       <div class="item-actions">
         <span class="source-badge ${srcClass}">${srcLabel}</span>
-        <button class="copy-btn" title="复制">✓</button>
-        <button class="mini-btn toggle-btn" title="展开">▾</button>
-        <button class="mini-btn del-btn" title="删除">×</button>
+        <button class="copy-btn" title="${t('titleCopy')}">✓</button>
+        <button class="mini-btn toggle-btn" title="${t('titleExpand')}">▾</button>
+        <button class="mini-btn del-btn" title="${t('titleDelete')}">×</button>
       </div>
-      <h3>${t}</h3>
-      <p>${s || '（暂无摘要）'}</p>
+      <h3>${titleEsc}</h3>
+      <p>${s || t('noSummary')}</p>
       <div class="item-detail">${c}</div>
     </article>`;
   }).join('');
@@ -67,7 +79,7 @@ function bindPersonaEvents(){
     if(copyBtn && item && item.closest('#personaList')){
       const text=decodeURIComponent(item.getAttribute('data-copy')||'');
       if(!text) return;
-      try{ await navigator.clipboard.writeText(text); showToast('已复制'); }catch{}
+      try{ await navigator.clipboard.writeText(text); showToast(t('copied')); }catch{}
       return;
     }
 
@@ -82,11 +94,11 @@ function bindPersonaEvents(){
     if(delBtn && item && item.closest('#personaList')){
       const id=item.getAttribute('data-id');
       if(!id) return;
-      if(!window.confirm('确认删除这条人格吗？此操作不可恢复。')) return;
+      if(!window.confirm(t('confirmDeletePersona'))) return;
       const arr=readPersonaList().filter(x=>String(x.id)!==String(id));
       writePersonaList(arr);
       renderPersonaList();
-      showToast('已删除');
+      showToast(t('deleted'));
       return;
     }
   });
@@ -106,14 +118,20 @@ const DRAFT_DEFAULTS=[
 function readDraftList(){
   try{
     const arr=JSON.parse(localStorage.getItem(DRAFT_KEY)||'[]');
+    const migrated=localStorage.getItem('pb_draft_migrated_v1')==='1';
     if(Array.isArray(arr) && arr.length){
-      const hasLegacy=arr.some(x=>DRAFT_LEGACY_TITLES.includes((x?.title||'')));
-      if(hasLegacy){
-        return DRAFT_DEFAULTS.map(x=>({...x}));
+      if(!migrated){
+        const hasLegacy=arr.some(x=>DRAFT_LEGACY_TITLES.includes((x?.title||'')));
+        if(hasLegacy){
+          localStorage.setItem('pb_draft_migrated_v1','1');
+          return DRAFT_DEFAULTS.map(x=>({...x}));
+        }
+        localStorage.setItem('pb_draft_migrated_v1','1');
       }
       return arr;
     }
   }catch(e){}
+  localStorage.setItem('pb_draft_migrated_v1','1');
   return DRAFT_DEFAULTS.map(x=>({...x}));
 }
 
@@ -127,14 +145,14 @@ function renderDraftList(){
   const arr=readDraftList();
   box.innerHTML=arr.map(it=>`<article class="draft-item" data-id="${it.id}" draggable="true">
     <div class="draft-item-head">
-      <span class="drag-handle" title="拖动排序">⋮⋮</span>
-      <input class="draft-title" value="${escapeHtml(it.title||'')}" placeholder="标题（可选）" />
+      <span class="drag-handle" title="drag">⋮⋮</span>
+      <input class="draft-title" value="${escapeHtml(it.title||'')}" placeholder="${t('draftTitlePh')}" />
     </div>
-    <textarea class="draft-body" placeholder="写点什么…">${escapeHtml(it.body||'')}</textarea>
+    <textarea class="draft-body" placeholder="${t('draftBodyPh')}">${escapeHtml(it.body||'')}</textarea>
     <div class="draft-actions">
-      <button class="draft-btn save-draft" title="保存">保存</button>
-      <button class="draft-btn copy-draft" title="复制">复制</button>
-      <button class="draft-btn del-draft" title="删除">×</button>
+      <button class="draft-btn save-draft" title="${t('btnSave')}">${t('btnSave')}</button>
+      <button class="draft-btn copy-draft" title="${t('btnCopy')}">${t('btnCopy')}</button>
+      <button class="draft-btn del-draft" title="${t('btnDelete')}">×</button>
     </div>
   </article>`).join('');
 }
@@ -153,7 +171,7 @@ function saveOneDraft(item){
   const idx=arr.findIndex(x=>String(x.id)===String(row.id));
   if(idx>=0) arr[idx]=row; else arr.unshift(row);
   writeDraftList(arr);
-  showToast('已保存');
+  showToast(t('saved'));
 }
 
 function deleteOneDraft(item){
@@ -162,13 +180,13 @@ function deleteOneDraft(item){
   const arr=readDraftList().filter(x=>String(x.id)!==String(id));
   writeDraftList(arr);
   renderDraftList();
-  showToast('已删除');
+  showToast(t('deleted'));
 }
 
 function copyOneDraft(item){
   const text=(item.querySelector('.draft-body')?.value||'').trim();
   if(!text) return;
-  navigator.clipboard.writeText(text).then(()=>showToast('已复制')).catch(()=>{});
+  navigator.clipboard.writeText(text).then(()=>showToast(t('copied'))).catch(()=>{});
 }
 
 function addDraft(){
@@ -178,13 +196,16 @@ function addDraft(){
   renderDraftList();
 }
 
-function reorderDraftByDom(){
+function collectAllFromDom(){
   const box=document.getElementById('draftList');
-  if(!box) return;
-  const ids=[...box.querySelectorAll('.draft-item')].map(x=>x.getAttribute('data-id'));
-  const map=new Map(readDraftList().map(x=>[String(x.id),x]));
-  const sorted=ids.map(id=>map.get(String(id))).filter(Boolean);
-  writeDraftList(sorted);
+  if(!box) return [];
+  return [...box.querySelectorAll('.draft-item')].map(collectDraftFromItem);
+}
+
+function reorderDraftByDom(){
+  const current=collectAllFromDom();
+  if(!current.length) return;
+  writeDraftList(current);
 }
 
 function bindDraftEvents(){
@@ -200,7 +221,7 @@ function bindDraftEvents(){
     if(e.target.closest('.save-draft')) return saveOneDraft(item);
     if(e.target.closest('.copy-draft')) return copyOneDraft(item);
     if(e.target.closest('.del-draft')){
-      if(!window.confirm('确认删除这条草稿吗？')) return;
+      if(!window.confirm(t('confirmDeleteDraft'))) return;
       return deleteOneDraft(item);
     }
   });
@@ -277,8 +298,7 @@ function bindDraftEvents(){
       touchDraggingEl.classList.remove('is-dragging');
       touchDraggingEl=null;
       reorderDraftByDom();
-      showToast('排序已更新');
-      renderDraftList();
+      showToast(t('sortUpdated'));
     }
   }
   box.addEventListener('touchend',endTouchDrag,{passive:true});
@@ -294,3 +314,6 @@ if(document.getElementById('draftList')){
   renderDraftList();
   bindDraftEvents();
 }
+
+applyI18n();
+document.getElementById('langToggleVault')?.addEventListener('click',()=>{ localStorage.setItem('pb_lang', lang()==='zh'?'en':'zh'); applyI18n(); if(document.getElementById('personaList')) renderPersonaList(); if(document.getElementById('draftList')) renderDraftList(); });

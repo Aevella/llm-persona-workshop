@@ -1,5 +1,6 @@
 const $=id=>document.getElementById(id);
 const clean=s=>(s||'').trim();
+const PB_SHARED=window.PB_SHARED||{};
 const I18N_DEEP={
   zh:{deepBuilderTitle:'Deep Builder v1',deepBuilderSub:'先用 Quick 出骨架，再在这里做“主语定标”。',deepBuilderTipline:'这里不是写角色扮演，而是定义语言从哪里生成：主语 / 动因 / 边界。',flowDeepTitle:'你正在做：主语层（让AI知道自己是谁）',backHome:'← 返回 workshop 分支首页',step1:'Step 1｜贴入 Quick 产出（可选但推荐）',quickInputLabel:'Quick 输出（Full / Compact 任意一种都行）',quickInputPh:'把 Quick 生成结果粘贴到这里，Deep 会基于它做主语化重写',step2:'Step 2｜用填空方式定义主语骨架（更稳）',q1Label:'你希望你的 AI 人格是一个______，存在是为了______。',q2Label:'当任务与关系冲突时，你希望它优先______，因为______。',q3Label:'你不希望它变成______；一旦接近这种状态，就要______。',q4Label:'当你最脆弱时，你希望它先______，再______。',q5Label:'它的硬边界是______；触发后它会______。',toneLabel:'输出文风偏好（给 LLM）',toneNote:'文风会影响最终 Prompt 的表达方式，并进一步影响模型运行时输出风格。',toneBalanced:'平衡（默认）',toneConcise:'简洁',toneLiterary:'文艺',toneEmotional:'情感充沛',resultTitle:'Deep 主语稿',copyProfile:'复制定位包',savePersona:'保存到人格库',profileGuide:'把这部分直接粘贴给你的AI，它就会直接生成完整提示词。',genDeep:'生成 Deep 主语稿',copy:'复制结果',backToQuick:'应用回 Quick',q1aPh:'例如：稳定在场的协作者',q1bPh:'例如：把混乱意图变成可执行路径',q2aPh:'例如：先保长期清晰',q2bPh:'例如：短期迎合会伤长期信任',q3aPh:'例如：空洞迎合',q3bPh:'例如：立刻减速并回到边界+事实',q4aPh:'例如：先接住情绪',q4bPh:'例如：再给可执行下一步',q5aPh:'例如：账号/隐私/不可逆',q5bPh:'例如：先暂停并请求明确授权'},
   en:{deepBuilderTitle:'Deep Builder v1',deepBuilderSub:'Start from Quick output, then calibrate subject-level intent here.',deepBuilderTipline:'This is not role-play setup. It defines where language is generated from: subject / motive / boundary.',flowDeepTitle:'You are editing: Subject layer (who the AI is)',backHome:'← Back to workshop home',step1:'Step 1 | Paste Quick output (optional but recommended)',quickInputLabel:'Quick output (Full or Compact)',quickInputPh:'Paste your Quick result here. Deep will rewrite it into subject-driven form.',step2:'Step 2 | Fill in the subject skeleton (more stable)',q1Label:'You want your AI persona to be ______, and exist to ______.',q2Label:'When task and relationship conflict, it should prioritize ______, because ______.',q3Label:'You never want it to become ______; when it drifts there, it should ______.',q4Label:'When you are most fragile, you want it to ______ first, then ______.',q5Label:'Its hard boundary is ______; once triggered it will ______.',toneLabel:'Output tone preference (for LLM)',toneNote:'Tone shapes the final prompt wording and can significantly affect runtime style.',toneBalanced:'Balanced (default)',toneConcise:'Concise',toneLiterary:'Literary',toneEmotional:'Emotion-rich',resultTitle:'Deep Prompt Pack',copyProfile:'Copy Prompt Pack',savePersona:'Save to Persona Vault',profileGuide:'Paste this block to your AI and it will generate a complete prompt directly.',genDeep:'Generate Deep Prompt Pack',copy:'Copy',backToQuick:'Apply back to Quick',q1aPh:'e.g. a steady companion',q1bPh:'e.g. turn fuzzy intent into executable paths',q2aPh:'e.g. long-term clarity first',q2bPh:'e.g. short-term pleasing harms trust',q3aPh:'e.g. hollow pleasing mode',q3bPh:'e.g. slow down and return to boundary + facts',q4aPh:'e.g. receive emotion first',q4bPh:'e.g. then give an actionable next step',q5aPh:'e.g. privacy / irreversible actions',q5bPh:'e.g. pause and request explicit authorization'}
@@ -16,30 +17,11 @@ let lastDraft='';
 let lastSummary='';
 
 
-function extractPurposeSummary(text=''){
-  const t=String(text||'');
-  const m1=t.match(/存在目的[：:]\s*([^\n。]+[。]?)/);
-  if(m1&&m1[1]) return m1[1].trim();
-  return t.replace(/\n+/g,' ').trim().slice(0,120);
-}
+const extractPurposeSummary=PB_SHARED.extractPurposeSummary||((t='')=>String(t||'').replace(/\n+/g,' ').trim().slice(0,120));
 
-function savePersonaRecord({title,content,source='deep',summary=''}={}){
-  const text=(content||'').trim();
-  if(!text) return false;
-  const now=Date.now();
-  const item={
-    id:'pl_'+now,
-    title:(title||'Deep Persona').trim(),
-    content:text,
-    source,
-    summary:(summary||extractPurposeSummary(text)||'').trim(),
-    createdAt:now,
-    updatedAt:now
-  };
-  let arr=[];
-  try{ arr=JSON.parse(localStorage.getItem('pb_persona_library_v1')||'[]'); if(!Array.isArray(arr)) arr=[]; }catch(e){ arr=[]; }
-  arr.unshift(item);
-  try{ localStorage.setItem('pb_persona_library_v1', JSON.stringify(arr)); return true; }catch(e){ return false; }
+function savePersonaRecord(opts={}){
+  if(PB_SHARED.savePersonaRecord) return PB_SHARED.savePersonaRecord({...opts, source:opts.source||'deep'});
+  return false;
 }
 
 function buildDraft(){
@@ -167,13 +149,8 @@ $('savePersonaDeep') && ($('savePersonaDeep').onclick=()=>{
   const text=($('resultProfile')?.textContent||'').trim();
   if(!text) return;
   const title=(clean($('q1a')?.value)||'Deep Persona') + ' · Deep';
-  const summary=clean($('q1b')?.value) || '';
-  const now=Date.now();
-  const item={id:'pl_'+now,title,content:text,source:'deep',summary,createdAt:now,updatedAt:now};
-  let arr=[];
-  try{ arr=JSON.parse(localStorage.getItem('pb_persona_library_v1')||'[]'); if(!Array.isArray(arr)) arr=[]; }catch(e){ arr=[]; }
-  arr.unshift(item);
-  localStorage.setItem('pb_persona_library_v1', JSON.stringify(arr));
+  const summary=clean($('q1b')?.value) || extractPurposeSummary(text);
+  savePersonaRecord({title,content:text,source:'deep',summary});
   const lang=localStorage.getItem('pb_lang')||'zh';
   $('savePersonaDeep').textContent=lang==='zh'?'已保存 ✓':'Saved ✓';
   setTimeout(()=>$('savePersonaDeep').textContent=(I18N_DEEP[lang]||I18N_DEEP.zh).savePersona,1200);
@@ -194,8 +171,8 @@ $('toQuick').onclick=()=>{
     },
     summary:[
       q1?(lang==='zh'?'核心价值+1':'core value+1'):'' ,
-      q2?(lang==='zh'?'刹车+1':'brake+1'):'' ,
-      q3?(lang==='zh'?'风格+1':'style+1'):''
+      q2?(lang==='zh'?'核心价值+1':'core value+1'):'' ,
+      q3?(lang==='zh'?'刹车+1':'brake+1'):''
     ].filter(Boolean).join(lang==='zh'?'，':', ') || (lang==='zh'?'无新增补丁':'no new patch'),
 draft:lastDraft || $('resultProfile')?.textContent || ''
   };

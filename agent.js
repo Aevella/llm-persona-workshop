@@ -1,5 +1,15 @@
 const $=id=>document.getElementById(id);
+const PB_SHARED=window.PB_SHARED||{};
 const I18N={zh:{title:'Agent Framework Builder',subtitle:'Core + Modes + Composer：先定核心，再叠场景，最后导出 OpenClaw md 文件。',back:'← 返回 workshop',flowAgentTitle:'你正在做：场景层（更适合代理模式的模块区分）',coreTitle:'Core（人格锚）',loadPharosCase:'加载示例：Corveil Aster',purpose:'存在目的',value:'核心价值',brake:'全局刹车',modeTitle:'Mode（场景模块）',modeWork:'执行模式',modeResearch:'研究模式',modeCompanion:'陪伴模式',modePublic:'外部社交模式',deleteMode:'删除模块',doneDelete:'完成删除',entryCond:'进入条件（何时触发该场景）',sceneGoal:'场景目标',sceneTone:'语气姿态',sceneRisk:'风险处理',sceneExit:'退出条件',fillModeExample:'填入当前模式示例',styleWarm:'温暖',styleEfficient:'效率',styleIntimate:'亲密',stylePlayful:'恶作剧',styleProvocative:'挑逗（实验）',extra:'额外备注（可选）',generate:'生成框架文件',clear:'清空',outputTitle:'导出预览',exportFile:'导出文件',copyOne:'一键复制',savePersona:'保存到人格库',savedPersona:'已保存 ✓',copied:'已复制 ✓',copyFail:'复制失败'},en:{title:'Agent Framework Builder',subtitle:'Core + Modes + Composer: set core first, add modes, export OpenClaw md files.',back:'← Back to workshop',flowAgentTitle:'You are editing: Scenario layer (agent-mode module split)',coreTitle:'Core (Anchor)',loadPharosCase:'Load example: Corveil Aster',purpose:'Purpose',value:'Core Value',brake:'Global Brake',modeTitle:'Mode modules',modeWork:'Work mode',modeResearch:'Research mode',modeCompanion:'Companion mode',modePublic:'Public mode',deleteMode:'Delete mode',doneDelete:'Done',entryCond:'Entry condition (when to trigger)',sceneGoal:'Scene goal',sceneTone:'Tone & stance',sceneRisk:'Risk handling',sceneExit:'Exit condition',fillModeExample:'Fill current mode example',styleWarm:'Warm',styleEfficient:'Efficient',styleIntimate:'Intimate',stylePlayful:'Playful',styleProvocative:'Provocative (Exp)',extra:'Extra note (optional)',generate:'Generate framework files',clear:'Clear',outputTitle:'Export preview',exportFile:'Export file',copyOne:'Copy',savePersona:'Save to Persona Vault',savedPersona:'Saved ✓',copied:'Copied ✓',copyFail:'Copy failed'}};
+
+function showToast(text){
+  const t=$('toast');
+  if(!t) return;
+  t.textContent=text||'Done';
+  t.classList.remove('hidden');
+  clearTimeout(showToast._t);
+  showToast._t=setTimeout(()=>t.classList.add('hidden'),1400);
+}
 
 const DEFAULT_MODE_KEYS={work:'modeWork',research:'modeResearch',companion:'modeCompanion',public:'modePublic'};
 let modeMeta={
@@ -191,26 +201,37 @@ function renderSelectors(){
 
 function compose(){
   saveCurrentMode();
+  const lang=localStorage.getItem('pb_lang')||'zh';
   const p=$('purpose').value.trim();
   const v=$('value').value.trim();
   const b=$('brake').value.trim();
   const extra=$('extra').value.trim();
 
+  const labels=lang==='zh'
+    ? {scene:'场景',entry:'进入条件',goal:'目标',tone:'语气姿态',risk:'风险处理',exit:'退出条件',empty:'（尚未填写场景模块）'}
+    : {scene:'Scene',entry:'Entry condition',goal:'Goal',tone:'Tone & stance',risk:'Risk handling',exit:'Exit condition',empty:'(No mode content yet)'};
+
   const modeLines=Object.entries(modeState)
     .filter(([,m])=>m.entryCond||m.sceneGoal||m.sceneTone||m.sceneRisk||m.sceneExit)
-    .map(([k,m])=>`### 场景：${modeName(k)}\n- 进入条件：${m.entryCond}\n- 目标：${m.sceneGoal}\n- 语气姿态：${m.sceneTone}\n- 风险处理：${m.sceneRisk}\n- 退出条件：${m.sceneExit}`)
+    .map(([k,m])=>`### ${labels.scene}: ${modeName(k)}\n- ${labels.entry}: ${m.entryCond}\n- ${labels.goal}: ${m.sceneGoal}\n- ${labels.tone}: ${m.sceneTone}\n- ${labels.risk}: ${m.sceneRisk}\n- ${labels.exit}: ${m.sceneExit}`)
     .join('\n\n');
 
   const files={
-    'SOUL.md':`# SOUL\n\n- 存在目的：${p}\n- 核心价值：${v}\n- 全局刹车：${b}`,
-    'AGENTS.md':`# AGENT FRAMEWORK\n\n## Core\n- Purpose: ${p}\n- Value: ${v}\n- Global Brake: ${b}\n\n## Modes\n${modeLines||'- （尚未填写场景模块）'}\n\n## Composer Rule\nFinal = Core + Mode Overrides + User Edits\n\n${extra?`## Extra\n${extra}`:''}`,
-    'USER.md':`# USER\n\n## 基本信息（选填）\n- Name:\n- Preferred name:\n- Timezone:\n- Language:\n\n## 交互偏好\n- 回复长度偏好：\n- 语气偏好：\n- 是否需要先共情后建议：\n\n## 边界与禁区\n- 不希望触发的话题：\n- 需要避免的表达方式：\n\n## 备注\n- （项目初期可留空，按最小必要信息原则填写）`,
-    'TOOLS.md':`# TOOLS\n\n## 环境别名（选填）\n- Device aliases:\n- Account aliases:\n\n## 连接信息（选填）\n- Camera names:\n- Speaker names:\n- Service nicknames:\n\n## 使用偏好\n- 默认语音/播报偏好：\n- 常用工作目录：\n\n## 备注\n- 记录“环境特定信息”，不写敏感凭证。`
+    'SOUL.md': lang==='zh'
+      ? `# SOUL\n\n- 存在目的：${p}\n- 核心价值：${v}\n- 全局刹车：${b}`
+      : `# SOUL\n\n- Purpose: ${p}\n- Core Value: ${v}\n- Global Brake: ${b}`,
+    'AGENTS.md':`# AGENT FRAMEWORK\n\n## Core\n- Purpose: ${p}\n- Value: ${v}\n- Global Brake: ${b}\n\n## Modes\n${modeLines||'- '+labels.empty}\n\n## Composer Rule\nFinal = Core + Mode Overrides + User Edits\n\n${extra?`## Extra\n${extra}`:''}`,
+    'USER.md': lang==='zh'
+      ? `# USER\n\n## 基本信息（选填）\n- Name:\n- Preferred name:\n- Timezone:\n- Language:\n\n## 交互偏好\n- 回复长度偏好：\n- 语气偏好：\n- 是否需要先共情后建议：\n\n## 边界与禁区\n- 不希望触发的话题：\n- 需要避免的表达方式：\n\n## 备注\n- （项目初期可留空，按最小必要信息原则填写）`
+      : `# USER\n\n## Basic info (optional)\n- Name:\n- Preferred name:\n- Timezone:\n- Language:\n\n## Interaction preferences\n- Preferred reply length:\n- Tone preference:\n- Emotion-first then suggestion?:\n\n## Boundaries\n- Topics to avoid:\n- Expressions to avoid:\n\n## Notes\n- Keep minimum required info only.`,
+    'TOOLS.md': lang==='zh'
+      ? `# TOOLS\n\n## 环境别名（选填）\n- Device aliases:\n- Account aliases:\n\n## 连接信息（选填）\n- Camera names:\n- Speaker names:\n- Service nicknames:\n\n## 使用偏好\n- 默认语音/播报偏好：\n- 常用工作目录：\n\n## 备注\n- 记录“环境特定信息”，不写敏感凭证。`
+      : `# TOOLS\n\n## Environment aliases (optional)\n- Device aliases:\n- Account aliases:\n\n## Connection notes (optional)\n- Camera names:\n- Speaker names:\n- Service nicknames:\n\n## Usage preferences\n- Default voice / playback:\n- Frequent workdir:\n\n## Notes\n- Store environment-specific notes, never sensitive credentials.`
   };
   return files;
 }
 
-function download(name,content){const blob=new Blob([content],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+function download(name,content){const blob=new Blob([content],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),800);}
 
 let currentFiles=null;
 let currentView='SOUL.md';
@@ -225,7 +246,7 @@ $('gen').onclick=()=>{
   const used=[...new Set(Object.values(modeFlavor).filter(Boolean))];
   if(used.length>1){
     const lang=localStorage.getItem('pb_lang')||'zh';
-    alert(lang==='zh'?'检测到多个场景用了不同茶汤风格。建议检查公共场景语气与风险处理是否一致。':'Multiple tea styles detected across modes. Check public tone/risk consistency.');
+    showToast(lang==='zh'?'检测到多种场景风格，请复查公共语气/风险一致性':'Multiple mode styles detected; please review tone/risk consistency');
   }
   const files=compose();
   currentFiles=files;
@@ -263,23 +284,25 @@ $('savePersonaAgent')?.addEventListener('click',()=>{
   const lang=localStorage.getItem('pb_lang')||'zh';
   const d=I18N[lang]||I18N.zh;
   const purposeText=(($('purpose')?.value||'').trim());
-  const mQuote=purposeText.match(/[「“\"']([^」”\"']{1,30})[」”\"']/);
+  const mQuote=purposeText.match(/[「“"']([^」”"']{1,30})[」”"']/);
   const mNamed=purposeText.match(/名为\s*([^，。；\s]{1,24})/);
   const cleanName=(mQuote?.[1]||mNamed?.[1]||'').replace(/[的\s]+$/,'').trim();
   const title=(cleanName || 'Agent Persona') + ' · Agent';
-  const summary=purposeText.slice(0,80);
-  const now=Date.now();
-  const item={id:'pl_'+now,title,content:text,source:'agent',summary,createdAt:now,updatedAt:now};
-  let arr=[];
-  try{ arr=JSON.parse(localStorage.getItem('pb_persona_library_v1')||'[]'); if(!Array.isArray(arr)) arr=[]; }catch(e){ arr=[]; }
-  arr.unshift(item);
-  localStorage.setItem('pb_persona_library_v1', JSON.stringify(arr));
+  const summary=(PB_SHARED.extractPurposeSummary?PB_SHARED.extractPurposeSummary(purposeText):purposeText.slice(0,80));
+  if(PB_SHARED.savePersonaRecord){
+    PB_SHARED.savePersonaRecord({
+      title,content:text,source:'agent',summary,
+      onError:()=>showToast(lang==='zh'?'保存失败，可能空间已满':'Save failed, storage may be full'),
+      onQuotaWarn:()=>showToast(lang==='zh'?'人格库接近容量上限':'Persona vault near storage limit')
+    });
+  }
   const btn=$('savePersonaAgent');
   if(btn){
     btn.textContent=d.savedPersona;
     setTimeout(()=>btn.textContent=d.savePersona,1200);
   }
 });
+
 
 function hydrateFromQuick(){
   try{

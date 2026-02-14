@@ -40,6 +40,9 @@ const el={
 };
 
 const I18N=window.QUICK_I18N||{};
+const PB_SHARED=window.PB_SHARED||{};
+const extractPurposeSummary=PB_SHARED.extractPurposeSummary||((t='')=>String(t||'').replace(/\n+/g,' ').trim().slice(0,120));
+
 
 function setLang(lang){
   const d=I18N[lang]||I18N.zh;
@@ -68,10 +71,11 @@ function exportText(filename,content){
   if(!content) return;
   const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
+  const url=URL.createObjectURL(blob);
+  a.href=url;
   a.download=filename;
   a.click();
-  URL.revokeObjectURL(a.href);
+  setTimeout(()=>URL.revokeObjectURL(url),800);
 }
 
 function showUpdateFlashOnce(){
@@ -118,10 +122,24 @@ function normalizePunctuation(text=''){
     .trim();
 }
 
+function splitClauses(text=''){
+  return normalizePunctuation(text)
+    .split(/[，,、；;。！？!?]+/)
+    .map(s=>cleanTail(s))
+    .filter(Boolean);
+}
+
 function mergeClause(base='', extra=''){
-  const items=(base?base.split(/[，,；;。]+/):[]).map(s=>cleanTail(s)).filter(Boolean);
-  (extra?extra.split(/[，,；;。]+/):[]).map(s=>cleanTail(s)).filter(Boolean).forEach(x=>{ if(!items.includes(x)) items.push(x); });
+  const items=splitClauses(base);
+  splitClauses(extra).forEach(x=>{ if(!items.includes(x)) items.push(x); });
   return normalizePunctuation(items.join('；'));
+}
+
+function removeClause(base='', extra=''){
+  const baseItems=splitClauses(base);
+  const extraSet=new Set(splitClauses(extra));
+  const kept=baseItems.filter(x=>!extraSet.has(x));
+  return normalizePunctuation(kept.join('；'));
 }
 
 function cleanTail(text=''){
@@ -151,6 +169,7 @@ function updateBodyNote(){
 function humanDiyClauses(){
   const lang=localStorage.getItem('pb_lang')||'zh';
   const zh=lang==='zh';
+  const nsfwLevel=el.humanNsfw?.value||'off';
   const personalityMap={
     lively: zh?'你的回应总带着一点跳跃感，语句轻快，像随时准备开个小玩笑。':'They speak with a light bounce in their voice, quick to tease, quick to smile.',
     steady: zh?'你的说话节奏始终不疾不徐，就算对方慌乱，也像是一块压在心口的石头。':'Their words come at a calm, even pace—like a steady presence you can lean on.',
@@ -180,13 +199,26 @@ function humanDiyClauses(){
     flirty: zh?'允许调情和暧昧表达，但不进入明确情欲描写。':'Flirtation and innuendo are allowed, but no explicit or graphic detail.',
     explicit: zh?'允许展开直接的情欲互动与露骨内容表达，但仅限成人且明确同意语境。':'Open to direct erotic content and sexual interactions, with no need to soften language, only in clearly consensual adult context.'
   };
+  const bodyText = (()=>{
+    if(!el.humanBody?.checked) return '';
+    if(nsfwLevel==='explicit') return zh
+      ? '允许角色根据语境，将亲密/情欲内容映射为明确且可感知的身体反应描述，但仅限成人且明确同意语境。'
+      : 'Physical embodiment may be explicit and sensorial in erotic context, only within clearly consensual adult context.';
+    if(nsfwLevel==='flirty') return zh
+      ? '允许角色根据语境，将亲密氛围映射为温和、含蓄的身体感受，不进入露骨描写。'
+      : 'Physical cues may appear as soft, suggestive embodiment without explicit graphic detail.';
+    return zh
+      ? '允许角色根据语境，将情绪或亲密内容映射为轻度身体感受或反应。'
+      : 'Emotional or intimate language may include light physical sensations and subtle embodiment.';
+  })();
+
   return {
     value: personalityMap[el.humanPersonality?.value||'steady'],
     style: emotionMap[el.humanEmotion?.value||'auto'],
     stance: relationMap[el.humanRelation?.value||'comfort_first'],
     ease: stabilityMap[el.humanStability?.value||'cooler'],
     brake: nsfwMap[el.humanNsfw?.value||'off'],
-    body: el.humanBody?.checked ? (zh?'允许角色根据语境，将情绪或亲密内容映射为轻度身体感受或反应。':'Emotional or intimate language may include physical sensations, reactions, or descriptive embodiment.') : ''
+    body: bodyText
   };
 }
 
@@ -261,44 +293,24 @@ function compactPrompt(L){
 }
 
 
-function extractPurposeSummary(text=''){
-  const t=String(text||'');
-  const m1=t.match(/存在目的[：:]\s*([^\n。]+[。]?)/);
-  if(m1&&m1[1]) return m1[1].trim();
-  const m2=t.match(/其存在是为了([^\n。]+[。]?)/);
-  if(m2&&m2[1]) return ('其存在是为了'+m2[1]).trim();
-  const m3=t.match(/exist(?:s)? to\s+([^\n.]+[.]?)/i);
-  if(m3&&m3[1]) return ('exist to '+m3[1]).trim();
-  return t.replace(/\n+/g,' ').trim().slice(0,120);
-}
-
-function savePersonaRecord({title,content,source='quick',summary=''}={}){
-  const text=(content||'').trim();
-  if(!text) return false;
-  const now=Date.now();
-  const item={
-    id:'pl_'+now,
-    title:(title||'Untitled Persona').trim(),
-    content:text,
-    source,
-    summary:(summary||extractPurposeSummary(text)||'').trim(),
-    createdAt:now,
-    updatedAt:now
-  };
-  let arr=[];
-  try{ arr=JSON.parse(localStorage.getItem('pb_persona_library_v1')||'[]'); if(!Array.isArray(arr)) arr=[]; }catch(e){ arr=[]; }
-  arr.unshift(item);
-  safeSetItem('pb_persona_library_v1', JSON.stringify(arr));
-  return true;
+function savePersonaRecord(opts={}){
+  const lang=localStorage.getItem('pb_lang')||'zh';
+  const d=I18N[lang]||I18N.zh;
+  const onError=()=>showToast(lang==='zh'?'缓存写入失败，可能空间已满':'Cache write failed, storage may be full');
+  const onQuotaWarn=()=>showToast(lang==='zh'?'人格库接近容量上限，建议清理旧条目':'Persona vault is near storage limit; consider cleaning old items');
+  if(PB_SHARED.savePersonaRecord){
+    return PB_SHARED.savePersonaRecord({...opts, source:opts.source||'quick', onError, onQuotaWarn});
+  }
+  onError();
+  return false;
 }
 
 function safeSetItem(key,val){
-  try{ localStorage.setItem(key,val); return true; }
-  catch(e){
-    const lang=localStorage.getItem('pb_lang')||'zh';
-    showToast(lang==='zh'?'缓存写入失败，可能空间已满':'Cache write failed, storage may be full');
-    return false;
-  }
+  const lang=localStorage.getItem('pb_lang')||'zh';
+  const onError=()=>showToast(lang==='zh'?'缓存写入失败，可能空间已满':'Cache write failed, storage may be full');
+  const onQuotaWarn=()=>showToast(lang==='zh'?'缓存接近容量上限，建议清理':'Storage near limit; consider cleanup');
+  if(PB_SHARED.safeSetItem) return PB_SHARED.safeSetItem(key,val,{onError,onQuotaWarn});
+  try{ localStorage.setItem(key,val); return true; }catch(e){ onError(); return false; }
 }
 
 function clearPbCache(){
@@ -424,6 +436,42 @@ function applyStacksToSeed(baseSeed){
   return merged;
 }
 
+function stripStacks(seed){
+  const selected=el.stackChecks.filter(c=>c.checked).map(c=>c.value);
+  const stackMap=getStacks();
+  const out={...seed};
+  selected.forEach(k=>{
+    const s=stackMap[k]; if(!s) return;
+    if(s.style) out['风格']=removeClause(out['风格']||'',s.style);
+    if(s.stance) out['关系']=removeClause(out['关系']||'',s.stance);
+    if(s.ease) out['社交弹性']=removeClause(out['社交弹性']||'',s.ease);
+    if(s.modules) out['模块']=removeClause(out['模块']||'',s.modules);
+    if(s.value) out['核心价值']=removeClause(out['核心价值']||'',s.value);
+    if(s.brake) out['刹车']=removeClause(out['刹车']||'',s.brake);
+  });
+  return out;
+}
+
+function stripHumanDiy(seed){
+  if(getEngine()!=='natural') return seed;
+  const c=humanDiyClauses();
+  const out={...seed};
+  out['核心价值']=removeClause(out['核心价值']||'', c.value||'');
+  out['风格']=removeClause(out['风格']||'', c.style||'');
+  out['关系']=removeClause(out['关系']||'', c.stance||'');
+  out['社交弹性']=removeClause(out['社交弹性']||'', c.ease||'');
+  out['刹车']=removeClause(out['刹车']||'', c.brake||'');
+  if(c.body) out['风格']=removeClause(out['风格']||'', c.body||'');
+  return out;
+}
+
+function recomputeBaseline(){
+  let seed=readSeed();
+  seed=stripHumanDiy(seed);
+  seed=stripStacks(seed);
+  baselineSeed={...seed};
+}
+
 function renderFromBaseline(){
   if(!baselineSeed) baselineSeed={...readSeed()};
   const merged=applyStacksToSeed(baselineSeed);
@@ -444,8 +492,7 @@ function updateComboBar(){
 const STACK_CONFLICT_PAIRS=[
   ['intimate','brief'],
   ['intimate','pro'],
-  ['delicate','brief'],
-  ['decisive','delicate']
+  ['delicate','brief']
 ];
 
 function detectStackConflicts(selected){
