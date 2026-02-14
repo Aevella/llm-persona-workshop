@@ -53,7 +53,7 @@ el.engineRadios.forEach(r=>r.addEventListener('change',()=>{ if(r.checked) apply
 const fieldInputs=[el.name,el.purpose,el.value,el.style,el.stance,el.modules,el.ease,el.brake];
 fieldInputs.forEach(inp=>{
   autoGrow(inp);
-  inp.addEventListener('input',()=>{ baselineSeed={...readSeed()}; autoGrow(inp); });
+  inp.addEventListener('input',()=>{ recomputeBaseline(); autoGrow(inp); });
 });
 el.stackChecks.forEach(chk=>chk.addEventListener('change',()=>{
   if(chk.value==='intimate' && chk.checked){
@@ -84,7 +84,7 @@ el.clearCache?.addEventListener('click',clearPbCache);
     if(p.brake) el.brake.value=mergeClause(el.brake.value,p.brake);
     if(p.style) el.style.value=mergeClause(el.style.value,p.style);
     [el.value,el.brake,el.style].forEach(autoGrow);
-    baselineSeed={...readSeed()};
+    recomputeBaseline();
     if(el.deepNotice){
       const lang=localStorage.getItem('pb_lang')||'zh';
       const d=I18N[lang]||I18N.zh;
