@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.3.1 - 2026-02-18
+- English-first polish and consistency pass across major surfaces:
+  - home/index/agent/story/intuition visible fallback copy updated for cleaner EN default experience
+  - tightened EN persona template voice in `quick-engine.js` (`QUICK_TEMPLATES_EN`)
+  - aligned Agent EN scene examples to consistent risk chain: pause -> confirm/reconfirm -> act
+  - strengthened Story EN final prompt as identity-anchor style (stability over performance)
+  - shifted Deep EN summary wording from formatting-oriented to calibration-oriented
+- Naming and release-language cleanup:
+  - unified temporary release wording to **Beta** (`Human-like DIY`, `Provocative`)
+  - removed local `.DS_Store` artifacts in project tree
+- Current state: suitable for English trial release; remaining work is optional P1 wording polish.
+
 ## v0.2.1 - 2026-02-12
 - Quick architecture maintenance split (no feature change):
   - extracted i18n dictionary into `quick.i18n.js`
@@ -68,6 +80,17 @@
   - localStorage capacity policy
   - staged performance gates (v1.0 threshold policy)
 
+## v0.1.0 - 2026-02-11
+- Initial public prototype released.
+- Added Workshop split: Quick / Deep entry.
+- Quick builder: core engine single-select + style fragment multi-select.
+- Added one-click copy for Full/Compact outputs.
+- Added logo + favicon integration.
+- Added catgirl template (`猫娘♡`).
+- Added auto-growing textareas.
+- Added stack rollback behavior (uncheck can revert from baseline).
+- Added punctuation normalization to reduce malformed punctuation joins.
+
 ## v0.1.2 - 2026-02-12
 - Integrated collaborator patch from `persona-builder-web-v0.1.2` into `script.js`.
 - Added engine-aware suffix architecture (`ENGINE_SUFFIXES`) so generated layer endings adapt by engine type and reduce cross-style contradiction.
@@ -80,14 +103,3 @@
 - Reworked style fragments:
   - 果断 / 专业 / 简短 / 安全 / 亲密 / 幽默 / 细腻
 - Tuned baseline content for 更活人 / 更效率 / 更守规.
-
-## v0.1.0 - 2026-02-11
-- Initial public prototype released.
-- Added Workshop split: Quick / Deep entry.
-- Quick builder: core engine single-select + style fragment multi-select.
-- Added one-click copy for Full/Compact outputs.
-- Added logo + favicon integration.
-- Added catgirl template (`猫娘♡`).
-- Added auto-growing textareas.
-- Added stack rollback behavior (uncheck can revert from baseline).
-- Added punctuation normalization to reduce malformed punctuation joins.

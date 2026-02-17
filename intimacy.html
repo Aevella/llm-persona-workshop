@@ -1,86 +1,112 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Intimacy♡ Builder</title>
-  <link rel="stylesheet" href="./intimacy.css" />
-</head>
-<body>
-  <main class="wrap">
-    <header class="card hero">
-      <h1>Intimacy♡ Builder</h1>
-      <p>给既有人格叠加亲密、拟人、身体化细节，不重写整套人格。</p>
-      <p><a class="back-home" href="./home.html">← 返回 workshop</a></p>
-    </header>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intimacy♡ Builder</title>
+    <link rel="stylesheet" href="./intimacy.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="card hero">
+        <h1>Intimacy♡ Builder</h1>
+        <p>Add intimacy, human warmth, and embodiment details onto an existing persona without rewriting the full profile.</p>
+        <p><a class="back-home" href="./home.html">← Back to workshop</a></p>
+      </header>
 
-    <section class="card">
-      <h2>输入来源</h2>
-      <div class="row">
-        <button id="loadQuick" class="ghost">从 Quick 续写</button>
-        <button id="loadDeep" class="ghost">从 Deep 续写</button>
-      </div>
-      <div class="row load-inline">
-        <select id="personaPick" class="pick-select">
-          <option value="">从人格库回填（选择一条）</option>
-        </select>
-        <button id="loadPersona" class="ghost">回填人格库</button>
-      </div>
-      <div class="row load-inline">
-        <select id="draftPick" class="pick-select">
-          <option value="">从草稿本回填（选择一条）</option>
-        </select>
-        <button id="loadDraft" class="ghost">回填草稿</button>
-      </div>
-      <label>基础文稿
-        <textarea id="baseText" rows="6" placeholder="可粘贴已有 Prompt / 片段"></textarea>
-      </label>
-    </section>
+      <section class="card">
+        <h2>Input source</h2>
+        <div class="row">
+          <button id="loadQuick" class="ghost glow-btn">Continue from Quick</button>
+          <button id="loadDeep" class="ghost glow-btn">Continue from Deep</button>
+        </div>
+        <div class="row load-inline">
+          <select id="personaPick" class="pick-select">
+            <option value="">Load from Persona Vault (select one)</option>
+          </select>
+          <button id="loadPersona" class="ghost glow-btn">Load persona</button>
+        </div>
+        <div class="row load-inline">
+          <select id="draftPick" class="pick-select">
+            <option value="">Load from Drafts (select one)</option>
+          </select>
+          <button id="loadDraft" class="ghost glow-btn">Load draft</button>
+        </div>
+        <textarea
+          id="baseText"
+          rows="4"
+          placeholder="Paste existing prompt / fragment"
+        ></textarea>
+      </section>
 
-    <section class="card">
-      <h2>参数（每档自动生成可编辑 Prompt）</h2>
-      <div class="grid">
-        <label>感知精度
-          <select id="perception"></select>
-          <textarea id="perceptionPrompt" rows="3"></textarea>
-        </label>
+      <section class="card">
+        <h2>Parameters</h2>
+        <div class="param-list">
+          <article class="param-item">
+            <div class="param-head">
+              <span>How fine-grained perception should be</span><select id="perception" class="glow-select"></select>
+            </div>
+            <textarea id="perceptionPrompt" rows="2"></textarea>
+          </article>
 
-        <label>情绪-生理耦合
-          <select id="coupling"></select>
-          <textarea id="couplingPrompt" rows="3"></textarea>
-        </label>
+          <article class="param-item">
+            <div class="param-head">
+              <span>Emotion-body coupling strength</span><select id="coupling" class="glow-select"></select>
+            </div>
+            <textarea id="couplingPrompt" rows="2"></textarea>
+          </article>
 
-        <label>显性程度
-          <select id="explicitness"></select>
-          <textarea id="explicitnessPrompt" rows="3"></textarea>
-        </label>
+          <article class="param-item">
+            <div class="param-head">
+              <span>How explicit language can be</span><select id="explicitness" class="glow-select"></select>
+            </div>
+            <textarea
+              id="explicitnessPrompt"
+              class="soft-sensitive"
+              rows="2"
+            ></textarea>
+          </article>
 
-        <label>情感黏度
-          <select id="bond"></select>
-          <textarea id="bondPrompt" rows="3"></textarea>
-        </label>
+          <article class="param-item">
+            <div class="param-head">
+              <span>Attachment intensity</span><select id="bond" class="glow-select"></select>
+            </div>
+            <textarea id="bondPrompt" rows="2"></textarea>
+          </article>
 
-        <label>主动性
-          <select id="agency"></select>
-          <textarea id="agencyPrompt" rows="3"></textarea>
-        </label>
+          <article class="param-item">
+            <div class="param-head">
+              <span>Initiative style</span><select id="agency" class="glow-select"></select>
+            </div>
+            <textarea id="agencyPrompt" rows="2"></textarea>
+          </article>
 
-        <label>节奏掌控
-          <select id="pacing"></select>
-          <textarea id="pacingPrompt" rows="3"></textarea>
-        </label>
-      </div>
-    </section>
+          <article class="param-item">
+            <div class="param-head">
+              <span>Pacing control</span><select id="pacing" class="glow-select"></select>
+            </div>
+            <textarea id="pacingPrompt" rows="2"></textarea>
+          </article>
+        </div>
+      </section>
 
-    <section class="card">
-      <div class="row">
-        <button id="gen">生成模块</button>
-        <button id="saveDraft" class="ghost">保存到草稿本</button>
-        <button id="copy" class="ghost">复制</button>
-      </div>
-      <pre id="out"></pre>
-    </section>
-  </main>
-  <script src="./intimacy.js"></script>
-</body>
+      <section class="card">
+        <h2>Custom modules</h2>
+        <div id="moduleList" class="module-list"></div>
+        <div class="row">
+          <button id="addModule" class="ghost glow-btn">+ Add module</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="row">
+          <button id="gen">Generate module</button>
+          <button id="saveDraft" class="ghost glow-btn">Save to drafts</button>
+          <button id="copy" class="ghost glow-btn">Copy</button>
+        </div>
+        <pre id="out"></pre>
+      </section>
+    </main>
+    <script src="./intimacy.js"></script>
+  </body>
 </html>

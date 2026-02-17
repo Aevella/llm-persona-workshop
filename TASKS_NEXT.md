@@ -32,11 +32,11 @@
    - LLM recommended / rule fallback (user-visible, non-scary)
 
 ## Priority P1
-1. Story lane scaffold page (`story.html`) with:
-   - Memory input blocks (anniversary/diary/chat snippets)
-   - “Extract skeleton” placeholder action
-   - clear warning: structured extraction, not literal person restoration
-2. Home Story card: switch from disabled to active once page exists.
+1. English wording polish (optional):
+   - unify product action naming (Send / Apply / Refine)
+   - final pass on small helper copy (tooltips/toasts/buttons)
+2. Story lane enhancement (existing page):
+   - refine memory extraction guidance and handoff quality checks
 
 ## Priority P2 (housekeeping)
 1. Unify flow-nav styles into shared base + per-page theme vars.

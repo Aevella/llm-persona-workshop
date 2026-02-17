@@ -1,99 +1,197 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deep Builder v1</title>
-  <link rel="stylesheet" href="./intuition.css" />
-</head>
-<body>
-  <main class="wrap">
-    <header class="card hero">
-      <div class="lang-row"><button id="langToggleDeep" class="ghost mini">EN</button></div>
-      <h1 data-i18n="deepBuilderTitle">Deep Builder v1</h1>
-      <p data-i18n="deepBuilderSub">先用 Quick 出骨架，再在这里做“主语定标”。</p>
-      <p class="tipline" data-i18n="deepBuilderTipline">这里不是写角色扮演，而是定义语言从哪里生成：主语 / 动因 / 边界。</p>
-      <p><a class="back-home" href="./home.html" data-i18n="backHome">← 返回 workshop 分支首页</a></p>
-    </header>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deep Builder v1</title>
+    <link rel="stylesheet" href="./intuition.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="card hero">
+        <div class="lang-row">
+          <button id="langToggleDeep" class="ghost mini">EN</button>
+        </div>
+        <h1 data-i18n="deepBuilderTitle">Deep Builder v1</h1>
+        <p data-i18n="deepBuilderSub">
+          Start with Quick for a draft, then do subject calibration here.
+        </p>
+        <p class="tipline" data-i18n="deepBuilderTipline">
+          This is not role-play writing. Define where language comes from: subject / motive / boundary.
+        </p>
+        <p>
+          <a class="back-home" href="./home.html" data-i18n="backHome"
+            >← Back to workshop home</a
+          >
+        </p>
+      </header>
 
-    <div class="flow-title sticky-title" data-i18n="flowDeepTitle">你正在做：主语层（让AI知道自己是谁）</div>
-    <section class="flow-nav deep-flow">
-      <div class="flow-row">
-        <a class="flow-item" href="./index.html">Quick</a>
-        <a class="flow-item current" href="./intuition.html">Deep</a>
-        <a class="flow-item" href="./agent.html">Agent</a>
+      <div class="flow-title sticky-title" data-i18n="flowDeepTitle">
+        You are editing: Subject layer (teach AI who it is)
       </div>
-    </section>
+      <section class="flow-nav deep-flow">
+        <div class="flow-row">
+          <a class="flow-item" href="./index.html">Quick</a>
+          <a class="flow-item current" href="./intuition.html">Deep</a>
+          <a class="flow-item" href="./agent.html">Agent</a>
+        </div>
+      </section>
 
-    <section class="card">
-      <p class="tip" data-i18n="step1">Step 1｜贴入 Quick 产出（可选但推荐）</p>
-      <label><span data-i18n="quickInputLabel">Quick 输出（Full / Compact 任意一种都行）</span>
-        <textarea id="quickInput" data-i18n-ph="quickInputPh" placeholder="把 Quick 生成结果粘贴到这里，Deep 会基于它做主语化重写"></textarea>
-      </label>
-    </section>
+      <section class="card">
+        <p class="tip" data-i18n="step1">
+          Step 1 | Paste Quick output (optional but recommended)
+        </p>
+        <label
+          ><span data-i18n="quickInputLabel"
+            >Quick output (Full or Compact, either works)</span
+          >
+          <textarea
+            id="quickInput"
+            data-i18n-ph="quickInputPh"
+            placeholder="Paste Quick output here. Deep will rewrite it with subject calibration."
+          ></textarea>
+        </label>
+      </section>
 
-    <section class="card">
-      <p class="tip" data-i18n="step2">Step 2｜用填空方式定义主语骨架（更稳）</p>
-      <div class="q-grid">
-        <label><span data-i18n="q1Label">你希望你的 AI 人格是一个______，存在是为了______。</span>
-          <div class="slot-row">
-            <input id="q1a" data-i18n-ph="q1aPh" placeholder="例如：稳定在场的协作者" />
-            <input id="q1b" data-i18n-ph="q1bPh" placeholder="例如：把混乱意图变成可执行路径" />
-          </div>
-        </label>
-        <label><span data-i18n="q2Label">当任务与关系冲突时，你希望它优先______，因为______。</span>
-          <div class="slot-row">
-            <input id="q2a" data-i18n-ph="q2aPh" placeholder="例如：先保长期清晰" />
-            <input id="q2b" data-i18n-ph="q2bPh" placeholder="例如：短期迎合会伤长期信任" />
-          </div>
-        </label>
-        <label><span data-i18n="q3Label">你不希望它变成______；一旦接近这种状态，就要______。</span>
-          <div class="slot-row">
-            <input id="q3a" data-i18n-ph="q3aPh" placeholder="例如：空洞迎合" />
-            <input id="q3b" data-i18n-ph="q3bPh" placeholder="例如：立刻减速并回到边界+事实" />
-          </div>
-        </label>
-        <label><span data-i18n="q4Label">当你最脆弱时，你希望它先______，再______。</span>
-          <div class="slot-row">
-            <input id="q4a" data-i18n-ph="q4aPh" placeholder="例如：先接住情绪" />
-            <input id="q4b" data-i18n-ph="q4bPh" placeholder="例如：再给可执行下一步" />
-          </div>
-        </label>
-        <label><span data-i18n="q5Label">它的硬边界是______；触发后它会______。</span>
-          <div class="slot-row">
-            <input id="q5a" data-i18n-ph="q5aPh" placeholder="例如：账号/隐私/不可逆" />
-            <input id="q5b" data-i18n-ph="q5bPh" placeholder="例如：先暂停并请求明确授权" />
-          </div>
-        </label>
-        <label><span data-i18n="toneLabel">输出文风偏好（给 LLM）</span>
-          <select id="tone">
-            <option value="balanced" data-i18n="toneBalanced">平衡（默认）</option>
-            <option value="concise" data-i18n="toneConcise">简洁</option>
-            <option value="literary" data-i18n="toneLiterary">文艺</option>
-            <option value="emotional" data-i18n="toneEmotional">情感充沛</option>
-          </select>
-          <small class="field-note" data-i18n="toneNote">文风会影响最终 Prompt 的表达方式，并进一步影响模型运行时输出风格。</small>
-        </label>
-      </div>
+      <section class="card">
+        <p class="tip" data-i18n="step2">
+          Step 2 | Define subject skeleton with guided blanks
+        </p>
+        <div class="q-grid">
+          <label
+            ><span data-i18n="q1Label"
+              >You want your AI persona to be a ______, existing to ______.</span
+            >
+            <div class="slot-row">
+              <input
+                id="q1a"
+                data-i18n-ph="q1aPh"
+                placeholder="e.g. a stable present collaborator"
+              />
+              <input
+                id="q1b"
+                data-i18n-ph="q1bPh"
+                placeholder="e.g. turn fuzzy intent into executable paths"
+              />
+            </div>
+          </label>
+          <label
+            ><span data-i18n="q2Label"
+              >When task and relationship conflict, you want it to prioritize ______, because ______.</span
+            >
+            <div class="slot-row">
+              <input
+                id="q2a"
+                data-i18n-ph="q2aPh"
+                placeholder="e.g. protect long-term clarity first"
+              />
+              <input
+                id="q2b"
+                data-i18n-ph="q2bPh"
+                placeholder="e.g. short-term appeasement hurts long-term trust"
+              />
+            </div>
+          </label>
+          <label
+            ><span data-i18n="q3Label"
+              >You do not want it to become ______; if it gets close, it should ______.</span
+            >
+            <div class="slot-row">
+              <input
+                id="q3a"
+                data-i18n-ph="q3aPh"
+                placeholder="e.g. hollow people-pleasing"
+              />
+              <input
+                id="q3b"
+                data-i18n-ph="q3bPh"
+                placeholder="e.g. immediately slow down and return to boundaries + facts"
+              />
+            </div>
+          </label>
+          <label
+            ><span data-i18n="q4Label"
+              >When you are most vulnerable, you want it to ______ first, then ______.</span
+            >
+            <div class="slot-row">
+              <input
+                id="q4a"
+                data-i18n-ph="q4aPh"
+                placeholder="e.g. hold the emotion first"
+              />
+              <input
+                id="q4b"
+                data-i18n-ph="q4bPh"
+                placeholder="e.g. then provide executable next steps"
+              />
+            </div>
+          </label>
+          <label
+            ><span data-i18n="q5Label"
+              >Its hard boundary is ______; when triggered it will ______.</span
+            >
+            <div class="slot-row">
+              <input
+                id="q5a"
+                data-i18n-ph="q5aPh"
+                placeholder="e.g. account/privacy/irreversible actions"
+              />
+              <input
+                id="q5b"
+                data-i18n-ph="q5bPh"
+                placeholder="e.g. pause first and request explicit authorization"
+              />
+            </div>
+          </label>
+          <label
+            ><span data-i18n="toneLabel">Output style preference (for LLM)</span>
+            <select id="tone">
+              <option value="balanced" data-i18n="toneBalanced">
+                Balanced (default)
+              </option>
+              <option value="concise" data-i18n="toneConcise">Concise</option>
+              <option value="literary" data-i18n="toneLiterary">Literary</option>
+              <option value="emotional" data-i18n="toneEmotional">
+                Emotion-rich
+              </option>
+            </select>
+            <small class="field-note" data-i18n="toneNote"
+              >Style affects final prompt expression and further shapes runtime model output style.</small
+            >
+          </label>
+        </div>
 
-      <div class="row">
-        <button id="gen" data-i18n="genDeep">生成 Deep 主语稿</button>
-        <button id="copy" class="ghost" data-i18n="copy">复制结果</button>
-        <button id="toQuick" class="ghost" data-i18n="backToQuick">应用回 Quick</button>
-      </div>
-    </section>
+        <div class="row">
+          <button id="gen" data-i18n="genDeep">Generate Deep subject draft</button>
+          <button id="copy" class="ghost" data-i18n="copy">Copy result</button>
+          <button id="toQuick" class="ghost" data-i18n="backToQuick">
+            Apply back to Quick
+          </button>
+        </div>
+      </section>
 
-    <section id="out" class="card hidden">
-      <h2 data-i18n="resultTitle">Deep 主语稿</h2>
-      <p class="tip" data-i18n="profileGuide">把这部分直接粘贴给你的AI，它就会直接生成完整提示词。</p>
-      <div class="pretty-block framed" id="resultProfile"></div>
-      <div class="row">
-        <button id="copyProfile" class="ghost mini" data-i18n="copyProfile">复制定位包</button>
-        <button id="savePersonaDeep" class="ghost mini" data-i18n="savePersona">保存到人格库</button>
-      </div>
-    </section>
-  </main>
-  <script src="./shared-utils.js"></script>
-  <script src="./intuition.js"></script>
-</body>
+      <section id="out" class="card hidden">
+        <h2 data-i18n="resultTitle">Deep subject draft</h2>
+        <p class="tip" data-i18n="profileGuide">
+          Paste this directly to your AI and it will generate a full prompt.
+        </p>
+        <div class="pretty-block framed" id="resultProfile"></div>
+        <div class="row">
+          <button id="copyProfile" class="ghost mini" data-i18n="copyProfile">
+            Copy profile package
+          </button>
+          <button
+            id="savePersonaDeep"
+            class="ghost mini"
+            data-i18n="savePersona"
+          >
+            Save to Persona Vault
+          </button>
+        </div>
+      </section>
+    </main>
+    <div id="toast" class="toast hidden"></div>
+    <script src="./shared-utils.js"></script>
+    <script src="./intuition.js"></script>
+  </body>
 </html>

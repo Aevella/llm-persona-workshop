@@ -10,25 +10,39 @@
   <main class="wrap">
     <header class="hero card">
       <div class="lang-row"><button id="langToggleVault" class="ghost mini">EN</button></div>
-      <h1><span data-i18n="vaultTitle">My Vault</span></h1>
-      <p><span data-i18n="vaultSub">这是你的资产大厅：完整人格与模块碎片分开管理。</span></p>
-      <p><a class="back-home" href="./home.html"><span data-i18n="backWorkshop">← 返回 Workshop</span></a></p>
+      <h1><span data-i18n="title">My Vault</span></h1>
+      <p data-i18n="sub">这是你的资产大厅：完整人格与模块碎片分开管理。</p>
+      <p><a class="back-home" href="./home.html" data-i18n="back">← 返回 Workshop</a></p>
     </header>
 
     <section class="vault-list">
       <a class="item room" href="./vault-persona.html">
-        <h3><span data-i18n="roomPersonaTitle">人格库（完整）</span></h3>
-        <p><span data-i18n="roomPersonaDesc">存整套人格提示词，一条就是一个完整系统。</span></p>
-        <span><span data-i18n="enterRoom">进入房间 →</span></span>
+        <h3 data-i18n="personaTitle">人格库（完整）</h3>
+        <p data-i18n="personaDesc">存整套人格提示词，一条就是一个完整系统。</p>
+        <span data-i18n="enter">进入房间 →</span>
       </a>
       <a class="item room" href="./vault-modules.html">
-        <h3><span data-i18n="roomDraftTitle">草稿本</span></h3>
-        <p><span data-i18n="roomDraftDesc">什么都能记：提示词、玩法、结局、灵感片段。可编辑、复制、删除、排序。</span></p>
-        <span><span data-i18n="enterRoom">进入房间 →</span></span>
+        <h3 data-i18n="draftTitle">草稿本</h3>
+        <p data-i18n="draftDesc">什么都能记：提示词、玩法、结局、灵感片段。可编辑、复制、删除、排序。</p>
+        <span data-i18n="enter">进入房间 →</span>
       </a>
     </section>
   </main>
-  <script src="./shared-utils.js"></script>
-  <script src="./vault.js"></script>
+
+  <script>
+    const I18N_VAULT={
+      zh:{title:'My Vault',sub:'这是你的资产大厅：完整人格与模块碎片分开管理。',back:'← 返回 Workshop',personaTitle:'人格库（完整）',personaDesc:'存整套人格提示词，一条就是一个完整系统。',draftTitle:'草稿本',draftDesc:'什么都能记：提示词、玩法、结局、灵感片段。可编辑、复制、删除、排序。',enter:'进入房间 →'},
+      en:{title:'My Vault',sub:'Your asset hall: full personas and modular fragments are managed separately.',back:'← Back to Workshop',personaTitle:'Persona Vault (Full)',personaDesc:'Store complete persona prompts. One item = one full system.',draftTitle:'Draftbook',draftDesc:'Capture anything: prompts, ideas, scenario branches, endings. Edit, copy, delete, reorder.',enter:'Enter room →'}
+    };
+    function setLangVault(lang){
+      const d=I18N_VAULT[lang]||I18N_VAULT.zh;
+      document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
+      const b=document.getElementById('langToggleVault'); if(b) b.textContent=lang==='zh'?'EN':'中';
+      localStorage.setItem('pb_lang',lang);
+    }
+    const saved=localStorage.getItem('pb_lang') || 'en';
+    setLangVault(saved);
+    document.getElementById('langToggleVault')?.addEventListener('click',()=>setLangVault((localStorage.getItem('pb_lang')||'en')==='zh'?'en':'zh'));
+  </script>
 </body>
 </html>

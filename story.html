@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story Builder</title>
+    <link rel="stylesheet" href="./story.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="card hero">
+        <div class="lang-row"><button id="langToggleStory" class="ghost mini">EN</button></div>
+        <h1 data-i18n="title">Story (Memory) Builder</h1>
+        <p data-i18n="subtitle">You are organizing memories; we help turn important parts into reusable long-term expression.</p>
+        <p><a class="back-home" href="./home.html" data-i18n="back">← Back to workshop</a></p>
+      </header>
+
+      <section class="card">
+        <h2 data-i18n="partA">Part A | Know Them</h2>
+        <p class="tip" data-i18n="partATip">You can copy each question to ask them, or fill in based on your understanding. Be specific and actionable.</p>
+        <div class="row">
+          <button id="copyAllQs" data-i18n="copyAllQs">Copy all questions (send to them)</button>
+        </div>
+        <div id="questionList" class="question-list"></div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="partB">Part B | Our story (memory archive)</h2>
+        <p class="tip" data-i18n="partBTip">This section stores memory content separately; only small useful signals are injected into generated outputs.</p>
+        <textarea id="memoryText" rows="8" data-i18n-ph="memoryPh" placeholder="Add anniversaries, dialogue snippets, nicknames, promises, inside jokes…"></textarea>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="partC">Part C | Generate</h2>
+        <div class="row">
+          <button id="genFinalPrompt" data-i18n="genFinal">Generate final prompt for them</button>
+          <button id="copyFinalPrompt" class="ghost" data-i18n="copyPrompt">Copy prompt</button>
+          <button id="saveDraftPrompt" class="ghost" data-i18n="savePromptDraft">Save prompt to draftbook</button>
+        </div>
+        <pre id="finalPromptOut"></pre>
+
+        <p class="tip" data-i18n="pasteTip">Paste back their full self-description generated from the prompt above:</p>
+        <textarea id="taFinalText" rows="8" data-i18n-ph="taFinalPh" placeholder="Paste their final self-description here"></textarea>
+        <div class="row">
+          <button id="savePersona" class="ghost" data-i18n="savePersona">Save to Persona Vault</button>
+          <button id="saveDraftFinal" class="ghost" data-i18n="saveFinalDraft">Save to draftbook</button>
+          <button id="toIntimacy" class="ghost" data-i18n="toIntimacy">Apply to Intimacy</button>
+          <button id="toDeep" class="ghost" data-i18n="toDeep">Apply to Deep</button>
+        </div>
+      </section>
+    </main>
+    <script src="./shared-utils.js"></script>
+    <script src="./story.js"></script>
+  </body>
+</html>

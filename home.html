@@ -1,74 +1,148 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Persona Workshop</title>
-  <link rel="stylesheet" href="./workshop-home.css" />
-</head>
-<body>
-  <main class="wrap">
-    <header class="hero card">
-      <div class="lang-row"><button id="langToggleHome" class="ghost mini">EN</button></div>
-      <h1><img class="brand-icon" src="./assets/logo.jpg" alt="logo" /> <span data-i18n="homeTitle">Persona Workshop</span></h1>
-      <p data-i18n="homeSubtitle">选你现在需要的入口：快生成，或深构建。</p>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Persona Workshop</title>
+    <link rel="stylesheet" href="./workshop-home.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="hero card">
+        <div class="lang-row">
+          <button id="langToggleHome" class="ghost mini">EN</button>
+        </div>
+        <h1>
+          <img class="brand-icon" src="./assets/logo.jpg" alt="logo" />
+          <span data-i18n="homeTitle">Persona Workshop</span>
+        </h1>
+        <p data-i18n="homeSubtitle">选你现在需要的入口：快生成，或深构建。</p>
+      </header>
 
-    <section class="grid">
-      <a class="card entry" href="./index.html">
-        <h2 data-i18n="quickTitle">Quick（更方便）</h2>
-        <p data-i18n="quickDesc">给图省事的人。分块填写 + 工具碎片模板，快速产出可用 Prompt。</p>
-        <span data-i18n="enter">进入 →</span>
+      <section class="grid">
+        <a class="card entry" href="./index.html">
+          <h2 data-i18n="quickTitle">Quick（更方便）</h2>
+          <p data-i18n="quickDesc">
+            给图省事的人。分块填写 + 工具碎片模板，快速产出可用 Prompt。
+          </p>
+          <span data-i18n="enter">进入 →</span>
+        </a>
+
+        <a class="card entry" href="./intuition.html">
+          <h2 data-i18n="deepTitle">Deep（更深入）</h2>
+          <p data-i18n="deepDesc">
+            给想做深的人。先抽主语，再定动因与边界，生成可迭代草案。
+          </p>
+          <span data-i18n="enter">进入 →</span>
+        </a>
+
+        <a class="card entry" href="./agent.html">
+          <h2 data-i18n="agentTitle">Agent（框架）</h2>
+          <p data-i18n="agentDesc">
+            Core + Mode + Composer：快速生成可导出的 OpenClaw md 框架。
+          </p>
+          <span data-i18n="enter">进入 →</span>
+        </a>
+
+        <a class="card entry story-entry" href="./story.html">
+          <h2 data-i18n="storyTitle">Story（回忆）</h2>
+          <p data-i18n="storyDesc">
+            把纪念日、日记、聊天回忆整理成可用骨架；记忆输入 → AI提取 → Prompt。
+          </p>
+          <span data-i18n="enter">进入 →</span>
+        </a>
+
+        <a class="card entry intimacy-entry" href="./intimacy.html">
+          <h2 data-i18n="intimacyTitle">Intimacy♡</h2>
+          <p data-i18n="intimacyDesc">
+            NSFW + 情感增强模块：给已有人格叠加亲密细节。
+          </p>
+          <span data-i18n="enter">进入 →</span>
+        </a>
+      </section>
+
+      <a class="card vault-entry" href="./vault.html">
+        <div class="vault-title" data-i18n="vaultTitle">我的仓库</div>
+        <div class="vault-sub" data-i18n="vaultDesc">
+          保存完整人格与模块碎片，后续个性化资产都放这里。
+        </div>
       </a>
 
+      <p class="tiny" data-i18n="homeTiny">
+        后续可扩展：文本反推人格 / Module Forge / Prompt 诊断 / 一致性评估。
+      </p>
 
-      <a class="card entry" href="./intuition.html">
-        <h2 data-i18n="deepTitle">Deep（更深入）</h2>
-        <p data-i18n="deepDesc">给想做深的人。先抽主语，再定动因与边界，生成可迭代草案。</p>
-        <span data-i18n="enter">进入 →</span>
-      </a>
-
-      <a class="card entry" href="./agent.html">
-        <h2 data-i18n="agentTitle">Agent（框架）</h2>
-        <p data-i18n="agentDesc">Core + Mode + Composer：快速生成可导出的 OpenClaw md 框架。</p>
-        <span data-i18n="enter">进入 →</span>
-      </a>
-
-      <a class="card entry intimacy-entry" href="./intimacy.html">
-        <h2 data-i18n="intimacyTitle">Intimacy♡</h2>
-        <p data-i18n="intimacyDesc">NSFW + 情感增强模块：给已有人格叠加亲密、拟人、身体化的细节层。</p>
-        <span data-i18n="enter">进入 →</span>
-      </a>
-
-      <a class="card entry story-entry" href="#" aria-disabled="true" onclick="return false;">
-        <h2 data-i18n="storyTitle">Story（回忆）</h2>
-        <p data-i18n="storyDesc">把纪念日、日记、聊天回忆整理成可用骨架；记忆输入 → AI提取 → Prompt。</p>
-        <span data-i18n="comingSoon">即将上线</span>
-      </a>
-    </section>
-
-    <a class="card vault-entry" href="./vault.html">
-      <div class="vault-title" data-i18n="vaultTitle">我的仓库</div>
-      <div class="vault-sub" data-i18n="vaultDesc">保存完整人格与模块碎片，后续个性化资产都放这里。</div>
-    </a>
-
-    <p class="tiny" data-i18n="homeTiny">后续可扩展：文本反推人格 / Module Forge / Prompt 诊断 / 一致性评估。</p>
-
-    <script>
-      const I18N_HOME={
-        zh:{homeTitle:'Persona Workshop',homeSubtitle:'选一个你现在最想走的入口，先做出结果，再慢慢加深。',quickTitle:'Quick（轻量）',quickDesc:'不用想太多，先拼一个能用的 Prompt。',deepTitle:'Deep（主语）',deepDesc:'从“谁在说话”出发，补齐动因、边界和稳定性。',agentTitle:'Agent（场景）',agentDesc:'把核心拆成可执行场景模块，导出 OpenClaw md。',intimacyTitle:'Intimacy♡',intimacyDesc:'NSFW + 情感增强模块：给已有人格叠加亲密、拟人、身体化的细节层。',storyTitle:'Story（回忆）',storyDesc:'把纪念日、日记、聊天回忆提炼成可复用骨架。',vaultTitle:'我的仓库',vaultDesc:'保存完整人格与模块碎片，后续个性化资产都放这里。',comingSoon:'即将上线',enter:'进入 →',homeTiny:'后续方向：Story 提取 / 配置导入导出 / Prompt 诊断 / 一致性评估。'},
-        en:{homeTitle:'Persona Workshop',homeSubtitle:'Pick one path that fits your mood now: ship fast, then deepen later.',quickTitle:'Quick (Light)',quickDesc:'Start simple and get a usable prompt in minutes.',deepTitle:'Deep (Subject)',deepDesc:'Anchor who is speaking, then refine motive, boundary, and stability.',agentTitle:'Agent (Scenarios)',agentDesc:'Split core intent into executable scene modules and export OpenClaw md.',intimacyTitle:'Intimacy♡',intimacyDesc:'NSFW + emotional layering to add intimate, human-like, embodied detail onto existing personas.',storyTitle:'Story (Memory)',storyDesc:'Extract reusable skeletons from anniversaries, diaries, and chat memories.',vaultTitle:'My Vault',vaultDesc:'Store full personas and modular snippets. Keep your personalized assets here.',comingSoon:'Coming soon',enter:'Enter →',homeTiny:'Next: Story extraction / config import-export / prompt diagnosis / consistency review.'}
-      };
-      function setLangHome(lang){
-        const d=I18N_HOME[lang]||I18N_HOME.zh;
-        document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
-        const b=document.getElementById('langToggleHome'); if(b) b.textContent=lang==='zh'?'EN':'中';
-        localStorage.setItem('pb_lang',lang);
-      }
-      const saved=localStorage.getItem('pb_lang') || ((navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en');
-      setLangHome(saved);
-      document.getElementById('langToggleHome')?.addEventListener('click',()=>setLangHome((localStorage.getItem('pb_lang')||'zh')==='zh'?'en':'zh'));
-    </script>
-  </main>
-</body>
+      <script>
+        const I18N_HOME = {
+          zh: {
+            homeTitle: "Persona Workshop",
+            homeSubtitle: "先挑一个顺手的，做出来再说。",
+            quickTitle: "Quick（轻量）",
+            quickDesc: "不用想太多。选风格 → 填几个词 → 一键生成。",
+            deepTitle: "Deep（主语）",
+            deepDesc: "先想清楚：你的 AI 是什么样的人，为什么存在。",
+            agentTitle: "Agent（场景）",
+            agentDesc: "把人格拆成不同场景的行为规则。",
+            intimacyTitle: "Intimacy♡",
+            intimacyDesc:
+              "NSFW + 情感增强模块：给你的 AI 加上身体感觉、亲密反应、情绪温度。",
+            storyTitle: "Story（回忆）",
+            storyDesc: "把你们的回忆变成 TA 能记住的东西。",
+            vaultTitle: "我的仓库",
+            vaultDesc: "保存完整人格与模块碎片，后续个性化资产都放这里。",
+            comingSoon: "即将上线",
+            enter: "进入 →",
+            homeTiny:
+              "后续方向：Story 提取 / 配置导入导出 / Prompt 诊断 / 一致性评估。",
+          },
+          en: {
+            homeTitle: "Persona Workshop",
+            homeSubtitle: "Pick one easy entry and ship first.",
+            quickTitle: "Quick (Light)",
+            quickDesc: "Pick styles → fill keywords → generate in one click.",
+            deepTitle: "Deep (Subject)",
+            deepDesc: "Define who your AI is and why it exists.",
+            agentTitle: "Agent (Scenarios)",
+            agentDesc: "Split persona behavior rules by scenario.",
+            intimacyTitle: "Intimacy♡",
+            intimacyDesc:
+              "NSFW + emotional layering: add bodily cues, intimacy response, and emotional temperature.",
+            storyTitle: "Story (Memory)",
+            storyDesc:
+              "Turn your shared memories into things your AI can retain.",
+            vaultTitle: "My Vault",
+            vaultDesc:
+              "Store full personas and modular snippets. Keep your personalized assets here.",
+            comingSoon: "Coming soon",
+            enter: "Enter →",
+            homeTiny:
+              "Next: Story extraction / config import-export / prompt diagnosis / consistency review.",
+          },
+        };
+        function setLangHome(lang) {
+          const d = I18N_HOME[lang] || I18N_HOME.zh;
+          document.querySelectorAll("[data-i18n]").forEach((n) => {
+            const k = n.getAttribute("data-i18n");
+            if (d[k]) n.textContent = d[k];
+          });
+          const b = document.getElementById("langToggleHome");
+          if (b) b.textContent = lang === "zh" ? "EN" : "中";
+          localStorage.setItem("pb_lang", lang);
+        }
+        const saved =
+          localStorage.getItem("pb_lang") ||
+          ((navigator.language || "").toLowerCase().startsWith("zh")
+            ? "zh"
+            : "en");
+        setLangHome(saved);
+        document
+          .getElementById("langToggleHome")
+          ?.addEventListener("click", () =>
+            setLangHome(
+              (localStorage.getItem("pb_lang") || "en") === "zh" ? "en" : "zh",
+            ),
+          );
+      </script>
+    </main>
+  </body>
 </html>

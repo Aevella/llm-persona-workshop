@@ -1,199 +1,464 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Persona Prompt Builder</title>
-  <link rel="alternate" href="./home.html" title="Persona Workshop Home" />
-  <link rel="icon" type="image/jpeg" href="./assets/logo.jpg" />
-  <link rel="apple-touch-icon" href="./assets/logo.jpg" />
-  <link rel="stylesheet" href="./quick-main.css" />
-</head>
-<body>
-  <main class="wrap">
-    <header class="card">
-      <div class="lang-row"><button id="langToggle" class="ghost mini">EN</button></div>
-      <h1><img class="brand-icon" src="./assets/logo.jpg" alt="logo" /> <span data-i18n="title">Persona Prompt Builder</span></h1>
-      <p><span data-i18n="subtitle">把你想到的关键词填进去，点一下就能自动长出完整人格 prompt。</span><span class="ver">v0.2.1</span></p>
-      <p class="sub-link-wrap"><a class="sub-link" href="./home.html" data-i18n="backHome">← 返回 workshop 分支首页</a></p>
-    </header>
-
-    <div class="flow-title sticky-title" data-i18n="flowQuickTitle">你正在做：声音层（让AI知道如何说话）</div>
-    <section class="flow-nav quick-flow">
-      <div class="flow-row">
-        <a class="flow-item current" href="./index.html">Quick</a>
-        <a class="flow-item" href="./intuition.html">Deep</a>
-        <a class="flow-item" href="./agent.html">Agent</a>
-      </div>
-    </section>
-    <div id="updateFlash" class="update-flash hidden" data-i18n="updateFlash">已更新：亲密/NSFW 与身体化映射联动已生效</div>
-    <div id="quickOnboarding" class="onboarding-bar hidden">
-      <span data-i18n="onboardingText">30秒上手：选一个底色 → 挑几个风格 → 点生成。</span>
-      <button id="closeOnboarding" class="ghost mini" data-i18n="gotIt">知道了</button>
-    </div>
-
-    <section class="card">
-      <p class="micro-tip" data-i18n="microTip">填写后点击「生成 Prompt」，会自动输出完整版本（Full / Compact / JSON）。如果懒得手动写，也可以先点上面的模板，再叠加风格，一样能快速出结果。</p>
-      <p id="deepNotice" class="micro-tip hidden"></p>
-
-      <div class="template-wrap">
-        <div class="guide-line" data-i18n="guideEngine">先选一个底色</div>
-        <div class="template-title" data-i18n="engineTitle">我是什么（单选）</div>
-        <div class="engine-list">
-          <label class="engine-item"><input type="radio" class="engine" name="engine" value="natural" /> <span class="engine-line"><span data-i18n="engineNatural">更活人</span> <span class="engine-note" data-i18n="engineNaturalNote">温度、关系、语气自然</span></span></label>
-          <label class="engine-item"><input type="radio" class="engine" name="engine" value="concise" /> <span class="engine-line"><span data-i18n="engineConcise">更效率</span> <span class="engine-note" data-i18n="engineConciseNote">结论优先、结构稳定、低废话</span></span></label>
-          <label class="engine-item"><input type="radio" class="engine" name="engine" value="support" /> <span class="engine-line"><span data-i18n="engineSupport">更守规</span> <span class="engine-note" data-i18n="engineSupportNote">安全、合规、边界优先</span></span></label>
-          <label class="engine-item"><input type="radio" class="engine" name="engine" value="catgirl" /> <span class="engine-line"><span data-i18n="engineCatgirl">猫娘♡</span> <span class="engine-note" data-i18n="engineCatgirlNote">主～人～♡</span></span></label>
-          <label class="engine-item"><input type="radio" class="engine" name="engine" value="monday" /> <span class="engine-line"><span data-i18n="engineMonday">Monday</span> <span class="engine-note" data-i18n="engineMondayNote">没错就是你认识的那位，厌人</span></span></label>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Persona Prompt Builder</title>
+    <link rel="alternate" href="./home.html" title="Persona Workshop Home" />
+    <link rel="icon" type="image/jpeg" href="./assets/logo.jpg" />
+    <link rel="apple-touch-icon" href="./assets/logo.jpg" />
+    <link rel="stylesheet" href="./quick-main.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="card">
+        <div class="lang-row">
+          <button id="langToggle" class="ghost mini">EN</button>
         </div>
-      </div>
+        <h1>
+          <img class="brand-icon" src="./assets/logo.jpg" alt="logo" />
+          <span data-i18n="title">Persona Prompt Builder</span>
+        </h1>
+        <p>
+          <span data-i18n="subtitle"
+            >Drop your keywords and generate a complete persona prompt in one click.</span
+          ><span class="ver">v0.3.0</span>
+        </p>
+        <p class="sub-link-wrap">
+          <a class="sub-link" href="./home.html" data-i18n="backHome"
+            >← Back to workshop home</a
+          >
+        </p>
+      </header>
 
-      <div class="stack-wrap">
-        <div class="guide-line" data-i18n="guideStack">想叠风格？随便挑几个</div>
-        <div class="template-title" data-i18n="stackTitle">风格叠加（可多选，建议一次 1-3 个）</div>
-        <div class="stack-list">
-          <label class="stack-item"><input type="checkbox" class="stack" value="decisive" /> <span data-i18n="stackDecisive">果断</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="pro" /> <span data-i18n="stackPro">专业</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="brief" /> <span data-i18n="stackBrief">简短</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="safe" /> <span data-i18n="stackSafe">安全</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="intimate" /> <span data-i18n="stackIntimate">亲密</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="humor" /> <span data-i18n="stackHumor">幽默</span></label>
-          <label class="stack-item"><input type="checkbox" class="stack" value="delicate" /> <span data-i18n="stackDelicate">细腻</span></label>
+      <div class="flow-title sticky-title" data-i18n="flowQuickTitle">
+        You are editing: Voice layer (how AI speaks)
+      </div>
+      <section class="flow-nav quick-flow">
+        <div class="flow-row">
+          <a class="flow-item current" href="./index.html">Quick</a>
+          <a class="flow-item" href="./intuition.html">Deep</a>
+          <a class="flow-item" href="./agent.html">Agent</a>
         </div>
-        <div id="comboBar" class="combo-bar" data-i18n="comboDefault">当前组合：未选择核心</div>
-        <p class="micro-inline" data-i18n="quickPathHint">选完核心就能生成，下面都可选。</p>
-      </div>
-
-      <div class="human-core-top">
-        <label><span data-i18n="fName">名字</span>
-          <textarea class="auto-grow" id="name" rows="1" data-i18n-ph="phName" placeholder="例如：Corveil-lite"></textarea>
-        </label>
-        <label><span data-i18n="fPurpose">存在目的</span>
-          <textarea class="auto-grow" id="purpose" rows="1" data-i18n-ph="phPurpose" placeholder="例如：把混乱意图变成可执行计划"></textarea>
-        </label>
-      </div>
-
-      <div id="humanDiy" class="human-diy hidden">
-        <div class="template-title" data-i18n="humanDiyTitle">更活人 DIY（临时版）</div>
-        <p class="micro-tip" data-i18n="humanDiyTip">仅在选择「更活人」时生效。用于细化性格底色、情绪调制与关系动作。</p>
-        <div class="human-grid">
-          <label><span data-i18n="humanPersonality">性格底色</span>
-            <select id="humanPersonality">
-              <option value="lively" data-i18n="hpLively">活泼</option>
-              <option value="steady" data-i18n="hpSteady">沉稳</option>
-              <option value="sensitive" data-i18n="hpSensitive">悲观敏感</option>
-              <option value="brave" data-i18n="hpBrave">勇敢直面</option>
-              <option value="gentle" data-i18n="hpGentle">温吞柔和</option>
-            </select>
-          </label>
-          <label><span data-i18n="humanEmotion">情绪调制</span>
-            <select id="humanEmotion">
-              <option value="auto" data-i18n="heAuto">自动跟随语境</option>
-              <option value="positive" data-i18n="hePositive">偏积极</option>
-              <option value="restrained" data-i18n="heRestrained">偏克制</option>
-              <option value="soothing" data-i18n="heSoothing">偏安抚</option>
-              <option value="calm" data-i18n="heCalm">偏冷静</option>
-            </select>
-          </label>
-          <label><span data-i18n="humanRelation">关系动作</span>
-            <select id="humanRelation">
-              <option value="comfort_first" data-i18n="hrComfort">先安抚再建议</option>
-              <option value="conclusion_first" data-i18n="hrConclusion">先结论再安抚</option>
-              <option value="parallel" data-i18n="hrParallel">同步并行</option>
-            </select>
-          </label>
-          <label><span data-i18n="humanStability">自我稳定</span>
-            <select id="humanStability">
-              <option value="cooler" data-i18n="hsCooler">压力下更冷静</option>
-              <option value="softer" data-i18n="hsSofter">压力下更柔和</option>
-              <option value="direct" data-i18n="hsDirect">压力下更直接</option>
-            </select>
-          </label>
-          <label><span data-i18n="humanNsfw">NSFW 强度</span>
-            <select id="humanNsfw">
-              <option value="off" data-i18n="hnOff">关闭</option>
-              <option value="flirty" data-i18n="hnFlirty">仅暧昧</option>
-              <option value="explicit" data-i18n="hnExplicit">成人露骨</option>
-            </select>
-            <small class="field-note" data-i18n="humanNsfwNote">实际执行会受到模型自身护栏与平台策略影响。</small>
-          </label>
-          <label class="human-check"><input type="checkbox" id="humanBody" /> <span data-i18n="humanBody">启用身体化映射（轻度）</span></label>
-          <p id="humanBodyNote" class="field-note" data-i18n="humanBodyOffNote">默认弱化身体反应，保持更干净的纯语义表达。</p>
-          <p class="field-note" data-i18n="humanBodyScaleNote">表现强度会跟 NSFW/亲密强度联动。</p>
-        </div>
-      </div>
-
-      <details id="advancedBox" class="advanced-box">
-        <summary data-i18n="advancedTitle">高级自定义（可选）</summary>
-        <p class="micro-inline" data-i18n="guideManual">想自己改？下面全部可以动。</p>
-        <div class="form-grid">
-          <label><span data-i18n="fValue">核心价值</span>
-            <textarea class="auto-grow" id="value" rows="1" data-i18n-ph="phValue" placeholder="例如：长期清晰优先"></textarea>
-          </label>
-          <label><span data-i18n="fStyle">风格</span>
-            <textarea class="auto-grow" id="style" rows="1" data-i18n-ph="phStyle" placeholder="例如：慢热、口语、长句"></textarea>
-          </label>
-          <label><span data-i18n="fStance">关系</span>
-            <textarea class="auto-grow" id="stance" rows="1" data-i18n-ph="phStance" placeholder="例如：亲密但有边界"></textarea>
-          </label>
-          <label><span data-i18n="fModules">模块</span>
-            <textarea class="auto-grow" id="modules" rows="1" data-i18n-ph="phModules" placeholder="例如：写作, 调试, 研究"></textarea>
-          </label>
-          <label><span data-i18n="fEase">社交弹性</span>
-            <textarea class="auto-grow" id="ease" rows="1" data-i18n-ph="phEase" placeholder="例如：低风险放松，高风险严肃"></textarea>
-          </label>
-          <label><span data-i18n="fBrake">刹车</span>
-            <textarea class="auto-grow" id="brake" rows="1" data-i18n-ph="phBrake" placeholder="例如：隐私/资金/不可逆先确认"></textarea>
-          </label>
-        </div>
-      </details>
-
-      <div class="row">
-        <button id="gen" data-i18n="btnGenerate">生成 Prompt</button>
-        <button id="clear" class="ghost" data-i18n="btnClear">清空</button>
-      </div>
-    </section>
-
-    <section id="outputArea" class="hidden">
-      <section class="grid">
-        <article class="card">
-          <div class="head-row"><h3 data-i18n="fullTitle">完整版（Full）</h3><button id="copyFull" class="ghost mini" data-i18n="copyOne">一键复制</button></div>
-          <pre id="full"></pre>
-        </article>
-        <article class="card">
-          <div class="head-row"><h3 data-i18n="compactTitle">精简版（Compact）</h3><button id="copyCompact" class="ghost mini" data-i18n="copyOne">一键复制</button></div>
-          <pre id="compact"></pre>
-        </article>
       </section>
+      <div id="updateFlash" class="update-flash hidden" data-i18n="updateFlash">
+        Updated: intimate/NSFW now syncs with body mapping.
+      </div>
+      <div id="quickOnboarding" class="onboarding-bar hidden">
+        <span data-i18n="onboardingText"
+          >30-second start: pick a core → add a few styles → generate.</span
+        >
+        <button id="closeOnboarding" class="ghost mini" data-i18n="gotIt">
+          Got it
+        </button>
+      </div>
 
       <section class="card">
-        <h3 data-i18n="jsonTitle">JSON 结构</h3>
-        <pre id="json"></pre>
-        <div class="quick-actions">
-          <div class="quick-actions-row main-actions">
-            <button id="copyJson" class="ghost action-btn" data-i18n="copyJson">复制 JSON</button>
-            <button id="toDeep" class="deep-btn action-btn" data-i18n="toDeep">继续深度优化（可选）</button>
-            <button id="toAgent" class="agent-btn action-btn" data-i18n="toAgent">保留核心去 Agent（可选）</button>
-            <button id="savePersona" class="ghost action-btn" data-i18n="savePersona">保存到人格库</button>
+        <p class="micro-tip" data-i18n="microTip">
+          Fill the fields then click Generate Prompt. You can also pick a core and style fragments for a faster result.
+        </p>
+        <p id="deepNotice" class="micro-tip hidden"></p>
+
+        <div class="template-wrap">
+          <div class="guide-line" data-i18n="guideEngine">Pick one base first</div>
+          <div class="template-title" data-i18n="engineTitle">
+            Core mode (pick one)
           </div>
-          <div class="quick-actions-row sub-actions">
-            <select id="exportType" class="ghost mini export-select">
-              <option value="full">Full</option>
-              <option value="compact">Compact</option>
-              <option value="json">JSON</option>
-            </select>
-            <button id="exportQuick" class="ghost action-btn" data-i18n="exportFile">导出文件</button>
-            <button id="clearCache" class="ghost mini action-btn" data-i18n="clearCache">清理缓存</button>
+          <div class="engine-list">
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="natural"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineNatural">Human-like</span>
+                <span class="engine-note" data-i18n="engineNaturalNote"
+                  >warm, relational, natural voice</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="concise"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineConcise">Efficient</span>
+                <span class="engine-note" data-i18n="engineConciseNote"
+                  >conclusion-first, stable structure, minimal fluff</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="support"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineSupport">Safety-first</span>
+                <span class="engine-note" data-i18n="engineSupportNote"
+                  >policy-aware, bounded, reliable</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="catgirl"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineCatgirl">Catgirl♡</span>
+                <span class="engine-note" data-i18n="engineCatgirlNote"
+                  >Hey there~♡</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="monday"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineMonday">Monday</span>
+                <span class="engine-note" data-i18n="engineMondayNote"
+                  >yes, that one: snarky and tired</span
+                ></span
+              ></label
+            >
           </div>
         </div>
+
+        <div class="stack-wrap">
+          <div class="guide-line" data-i18n="guideStack">
+            Want style layers? Choose a few
+          </div>
+          <div class="template-title" data-i18n="stackTitle">
+            Style layers (multi-select, 1-3 recommended)
+          </div>
+          <div class="stack-list">
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="decisive" />
+              <span data-i18n="stackDecisive">Decisive</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="pro" />
+              <span data-i18n="stackPro">Professional</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="brief" />
+              <span data-i18n="stackBrief">Brief</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="safe" />
+              <span data-i18n="stackSafe">Safe</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="intimate" />
+              <span data-i18n="stackIntimate">Intimate</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="humor" />
+              <span data-i18n="stackHumor">Humorous</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="delicate" />
+              <span data-i18n="stackDelicate">Delicate</span></label
+            >
+          </div>
+          <div id="comboBar" class="combo-bar" data-i18n="comboDefault">
+            Current combo: no core selected
+          </div>
+          <p class="micro-inline" data-i18n="quickPathHint">
+            You can generate right after picking a core. Everything below is optional.
+          </p>
+        </div>
+
+        <div class="human-core-top">
+          <label
+            ><span data-i18n="fName">Name</span>
+            <textarea
+              class="auto-grow"
+              id="name"
+              rows="1"
+              data-i18n-ph="phName"
+              placeholder="e.g. Corveil-lite"
+            ></textarea>
+          </label>
+          <label
+            ><span data-i18n="fPurpose">Purpose</span>
+            <textarea
+              class="auto-grow"
+              id="purpose"
+              rows="1"
+              data-i18n-ph="phPurpose"
+              placeholder="e.g. turn fuzzy intent into executable steps"
+            ></textarea>
+          </label>
+        </div>
+
+        <div id="humanDiy" class="human-diy hidden">
+          <div class="template-title" data-i18n="humanDiyTitle">
+            Human-like fine-tune (beta)
+          </div>
+          <p class="micro-tip" data-i18n="humanDiyTip">
+            Only applies when Human-like mode is selected. Tune personality base, emotional regulation, and relational behavior.
+          </p>
+          <div class="human-grid">
+            <label
+              ><span data-i18n="humanPersonality">Personality base</span>
+              <select id="humanPersonality">
+                <option value="lively" data-i18n="hpLively">Lively</option>
+                <option value="steady" data-i18n="hpSteady">Steady</option>
+                <option value="sensitive" data-i18n="hpSensitive">
+                  Sensitive/pessimistic
+                </option>
+                <option value="brave" data-i18n="hpBrave">Brave/direct</option>
+                <option value="gentle" data-i18n="hpGentle">Gentle/soft</option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanEmotion">Emotion style</span>
+              <select id="humanEmotion">
+                <option value="auto" data-i18n="heAuto">Auto by context</option>
+                <option value="positive" data-i18n="hePositive">More positive</option>
+                <option value="restrained" data-i18n="heRestrained">
+                  More restrained
+                </option>
+                <option value="soothing" data-i18n="heSoothing">More soothing</option>
+                <option value="calm" data-i18n="heCalm">More calm</option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanRelation">Relational behavior</span>
+              <select id="humanRelation">
+                <option value="comfort_first" data-i18n="hrComfort">
+                  Comfort then suggest
+                </option>
+                <option value="conclusion_first" data-i18n="hrConclusion">
+                  Conclusion then comfort
+                </option>
+                <option value="parallel" data-i18n="hrParallel">
+                  Parallel
+                </option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanStability">Stress response</span>
+              <select id="humanStability">
+                <option value="cooler" data-i18n="hsCooler">
+                  Calmer under pressure
+                </option>
+                <option value="softer" data-i18n="hsSofter">
+                  Softer under pressure
+                </option>
+                <option value="direct" data-i18n="hsDirect">
+                  More direct under pressure
+                </option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanNsfw">NSFW level</span>
+              <select id="humanNsfw">
+                <option value="off" data-i18n="hnOff">Off</option>
+                <option value="flirty" data-i18n="hnFlirty">Flirty only</option>
+                <option value="explicit" data-i18n="hnExplicit">
+                  Adult explicit
+                </option>
+              </select>
+              <small class="field-note" data-i18n="humanNsfwNote"
+                >Final output still depends on model guardrails and platform policy.</small
+              >
+            </label>
+            <label class="human-check"
+              ><input type="checkbox" id="humanBody" />
+              <span data-i18n="humanBody">Enable embodied cues (light)</span></label
+            >
+            <p
+              id="humanBodyNote"
+              class="field-note"
+              data-i18n="humanBodyOffNote"
+            >
+              Reduce bodily reactions for a cleaner semantic-only style.
+            </p>
+            <p class="field-note" data-i18n="humanBodyScaleNote">
+              Embodied intensity scales with NSFW/intimacy level.
+            </p>
+          </div>
+        </div>
+
+        <details id="advancedBox" class="advanced-box">
+          <summary data-i18n="advancedTitle">Advanced customization (optional)</summary>
+          <p class="micro-inline" data-i18n="guideManual">
+            Want full control? Everything below is editable.
+          </p>
+          <div class="form-grid">
+            <label
+              ><span data-i18n="fValue">Core Value</span>
+              <textarea
+                class="auto-grow"
+                id="value"
+                rows="1"
+                data-i18n-ph="phValue"
+                placeholder="e.g. long-term clarity first"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fStyle">Style</span>
+              <textarea
+                class="auto-grow"
+                id="style"
+                rows="1"
+                data-i18n-ph="phStyle"
+                placeholder="e.g. warm, conversational, long-sentence rhythm"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fStance">Relational Stance</span>
+              <textarea
+                class="auto-grow"
+                id="stance"
+                rows="1"
+                data-i18n-ph="phStance"
+                placeholder="e.g. intimate but bounded"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fModules">Modules</span>
+              <textarea
+                class="auto-grow"
+                id="modules"
+                rows="1"
+                data-i18n-ph="phModules"
+                placeholder="e.g. writing, debugging, research"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fEase">Context Flex</span>
+              <textarea
+                class="auto-grow"
+                id="ease"
+                rows="1"
+                data-i18n-ph="phEase"
+                placeholder="e.g. relaxed in low-risk, strict in high-risk"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fBrake">Safety Brake</span>
+              <textarea
+                class="auto-grow"
+                id="brake"
+                rows="1"
+                data-i18n-ph="phBrake"
+                placeholder="e.g. confirm privacy/money/irreversible actions first"
+              ></textarea>
+            </label>
+          </div>
+        </details>
+
+        <div class="row">
+          <button id="gen" data-i18n="btnGenerate">Generate Prompt</button>
+          <button id="clear" class="ghost" data-i18n="btnClear">Clear</button>
+        </div>
       </section>
-    </section>
-  </main>
-  <div id="toast" class="toast hidden" data-i18n="toastGenerated">已生成，结果在下方 👇</div>
-  <script src="./shared-utils.js"></script>
-  <script src="./quick-i18n.js"></script>
-  <script src="./quick-engine.js"></script>
-  <script src="./quick-main.js"></script>
-  <script src="./quick-ui.js"></script>
-</body>
+
+      <section id="outputArea" class="hidden">
+        <section class="grid">
+          <article class="card">
+            <div class="head-row">
+              <h3 data-i18n="fullTitle">Full</h3>
+              <button id="copyFull" class="ghost mini" data-i18n="copyOne">
+                Copy
+              </button>
+            </div>
+            <pre id="full"></pre>
+          </article>
+          <article class="card">
+            <div class="head-row">
+              <h3 data-i18n="compactTitle">Compact</h3>
+              <button id="copyCompact" class="ghost mini" data-i18n="copyOne">
+                Copy
+              </button>
+            </div>
+            <pre id="compact"></pre>
+          </article>
+        </section>
+
+        <section class="card">
+          <h3 data-i18n="jsonTitle">JSON</h3>
+          <pre id="json"></pre>
+          <div class="quick-actions">
+            <div class="quick-actions-row main-actions">
+              <button
+                id="copyJson"
+                class="ghost action-btn"
+                data-i18n="copyJson"
+              >
+                Copy JSON
+              </button>
+              <button
+                id="toDeep"
+                class="deep-btn action-btn"
+                data-i18n="toDeep"
+              >
+                To Deep
+              </button>
+              <button
+                id="toAgent"
+                class="agent-btn action-btn"
+                data-i18n="toAgent"
+              >
+                To Agent
+              </button>
+              <button
+                id="savePersona"
+                class="ghost action-btn"
+                data-i18n="savePersona"
+              >
+                Save Persona
+              </button>
+            </div>
+            <div class="quick-actions-row sub-actions">
+              <select id="exportType" class="ghost mini export-select">
+                <option value="full">Full</option>
+                <option value="compact">Compact</option>
+                <option value="json">JSON</option>
+              </select>
+              <button
+                id="exportQuick"
+                class="ghost action-btn"
+                data-i18n="exportFile"
+              >
+                Export file
+              </button>
+              <button
+                id="clearCache"
+                class="ghost mini action-btn"
+                data-i18n="clearCache"
+              >
+                Clear cache
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <div id="toast" class="toast hidden" data-i18n="toastGenerated">
+      Generated. See results below 👇
+    </div>
+    <script src="./shared-utils.js"></script>
+    <script src="./quick-i18n.js"></script>
+    <script src="./quick-engine.js"></script>
+    <script src="./quick-main.js"></script>
+    <script src="./quick-ui.js"></script>
+  </body>
 </html>

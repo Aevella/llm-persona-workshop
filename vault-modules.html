@@ -9,22 +9,36 @@
 <body class="draftbook-page">
   <main class="wrap">
     <header class="hero card">
-      <div class="lang-row"><button id="langToggleVault" class="ghost mini">EN</button></div>
-      <h1><span data-i18n="roomDraftTitle">草稿本</span></h1>
-      <p><span data-i18n="draftSub">什么都能记：提示词、玩法、结局、灵感片段。</span></p>
-      <p><a class="back-home" href="./vault.html"><span data-i18n="backVault">← 返回 My Vault</span></a></p>
+      <div class="lang-row"><button id="langToggleVaultDraft" class="ghost mini">EN</button></div>
+      <h1><span data-i18n="title">草稿本</span></h1>
+      <p data-i18n="sub">什么都能记：提示词、玩法、结局、灵感片段。</p>
+      <p><a class="back-home" href="./vault.html" data-i18n="back">← 返回 My Vault</a></p>
     </header>
 
     <section class="card">
       <div class="draft-toolbar">
-        <button id="addDraft" class="ghost"><span data-i18n="addDraft">+ 新增草稿</span></button>
+        <button id="addDraft" class="ghost" data-i18n="addDraft">+ 新增草稿</button>
       </div>
       <div id="draftList" class="draft-list"></div>
     </section>
   </main>
 
   <div id="toast" class="toast hidden">Copied</div>
-  <script src="./shared-utils.js"></script>
+  <script>
+    const I18N_VAULT_DRAFT={
+      zh:{title:'草稿本',sub:'什么都能记：提示词、玩法、结局、灵感片段。',back:'← 返回 My Vault',addDraft:'+ 新增草稿'},
+      en:{title:'Draftbook',sub:'Capture anything: prompts, ideas, branch endings, random sparks.',back:'← Back to My Vault',addDraft:'+ New Draft'}
+    };
+    function setLangVD(lang){
+      const d=I18N_VAULT_DRAFT[lang]||I18N_VAULT_DRAFT.zh;
+      document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
+      const b=document.getElementById('langToggleVaultDraft'); if(b) b.textContent=lang==='zh'?'EN':'中';
+      localStorage.setItem('pb_lang',lang);
+    }
+    const saved=localStorage.getItem('pb_lang') || 'en';
+    setLangVD(saved);
+    document.getElementById('langToggleVaultDraft')?.addEventListener('click',()=>setLangVD((localStorage.getItem('pb_lang')||'en')==='zh'?'en':'zh'));
+  </script>
   <script src="./vault.js"></script>
 </body>
 </html>
