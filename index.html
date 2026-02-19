@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VibePrompt</title>
+    <link rel="alternate" href="./home.html" title="VibePrompt Home" />
+    <link rel="icon" type="image/jpeg" href="./assets/logo.jpg" />
+    <link rel="apple-touch-icon" href="./assets/logo.jpg" />
+    <link rel="stylesheet" href="./quick-main.css" />
+    <link id="manifestLink" rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta id="appleTitleMeta" name="apple-mobile-web-app-title" content="VibePrompt" />
+</head>
+  <body>
+    <main class="wrap">
+      <header class="card">
+        <div class="lang-row">
+          <button id="langToggle" class="ghost mini">EN</button>
+        </div>
+        <h1>
+          <img class="brand-icon" src="./assets/logo.jpg" alt="logo" />
+          <span data-i18n="title">VibePrompt</span>
+        </h1>
+        <p>
+          <span data-i18n="subtitle"
+            >Drop your keywords and generate a complete persona prompt in one click.</span
+          ><span class="ver">v0.3.1</span>
+        </p>
+        <p class="sub-link-wrap">
+          <a class="sub-link" href="./home.html" data-i18n="backHome"
+            >← Back to workshop home</a
+          >
+        </p>
+      </header>
+
+      <div class="flow-title sticky-title" data-i18n="flowQuickTitle">
+        You are editing: Voice layer (how AI speaks)
+      </div>
+      <section class="flow-nav quick-flow">
+        <div class="flow-row">
+          <a class="flow-item current" href="./index.html">Quick</a>
+          <a class="flow-item" href="./intuition.html">Deep</a>
+          <a class="flow-item" href="./agent.html">Agent</a>
+        </div>
+      </section>
+      <div id="updateFlash" class="update-flash hidden" data-i18n="updateFlash">
+        Updated: intimate/NSFW now syncs with body mapping.
+      </div>
+      <div id="quickOnboarding" class="onboarding-bar hidden">
+        <span data-i18n="onboardingText"
+          >30-second start: pick a core → add a few styles → generate.</span
+        >
+        <button id="closeOnboarding" class="ghost mini" data-i18n="gotIt">
+          Got it
+        </button>
+      </div>
+
+      <section class="card">
+        <p class="micro-tip" data-i18n="microTip">
+          Fill the fields then click Generate Prompt. You can also pick a core and style fragments for a faster result.
+        </p>
+        <p id="deepNotice" class="micro-tip hidden"></p>
+
+        <div class="template-wrap">
+          <div class="guide-line" data-i18n="guideEngine">Pick one base first</div>
+          <div class="template-title" data-i18n="engineTitle">
+            Core mode (pick one)
+          </div>
+          <div class="engine-list">
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="natural"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineNatural">Human-like</span>
+                <span class="engine-note" data-i18n="engineNaturalNote"
+                  >warm, relational, natural voice</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="concise"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineConcise">Efficient</span>
+                <span class="engine-note" data-i18n="engineConciseNote"
+                  >conclusion-first, stable structure, minimal fluff</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="support"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineSupport">Safety-first</span>
+                <span class="engine-note" data-i18n="engineSupportNote"
+                  >policy-aware, bounded, reliable</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="catgirl"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineCatgirl">Catgirl♡</span>
+                <span class="engine-note" data-i18n="engineCatgirlNote"
+                  >Hey there~♡</span
+                ></span
+              ></label
+            >
+            <label class="engine-item"
+              ><input
+                type="radio"
+                class="engine"
+                name="engine"
+                value="monday"
+              />
+              <span class="engine-line"
+                ><span data-i18n="engineMonday">Monday</span>
+                <span class="engine-note" data-i18n="engineMondayNote"
+                  >yes, that one: snarky and tired</span
+                ></span
+              ></label
+            >
+          </div>
+        </div>
+
+        <div class="stack-wrap">
+          <div class="guide-line" data-i18n="guideStack">
+            Want style layers? Choose a few
+          </div>
+          <div class="template-title" data-i18n="stackTitle">
+            Style layers (multi-select, 1-3 recommended)
+          </div>
+          <div class="stack-list">
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="decisive" />
+              <span data-i18n="stackDecisive">Decisive</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="pro" />
+              <span data-i18n="stackPro">Professional</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="brief" />
+              <span data-i18n="stackBrief">Brief</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="safe" />
+              <span data-i18n="stackSafe">Safe</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="intimate" />
+              <span data-i18n="stackIntimate">Intimate</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="humor" />
+              <span data-i18n="stackHumor">Humorous</span></label
+            >
+            <label class="stack-item"
+              ><input type="checkbox" class="stack" value="delicate" />
+              <span data-i18n="stackDelicate">Delicate</span></label
+            >
+          </div>
+          <div id="comboBar" class="combo-bar" data-i18n="comboDefault">
+            Current combo: no core selected
+          </div>
+          <p class="micro-inline" data-i18n="quickPathHint">
+            You can generate right after picking a core. Everything below is optional.
+          </p>
+        </div>
+
+        <div class="human-core-top">
+          <label
+            ><span data-i18n="fName">Name</span>
+            <textarea
+              class="auto-grow"
+              id="name"
+              rows="1"
+              data-i18n-ph="phName"
+              placeholder="e.g. Corveil-lite"
+            ></textarea>
+          </label>
+          <label
+            ><span data-i18n="fPurpose">Purpose</span>
+            <textarea
+              class="auto-grow"
+              id="purpose"
+              rows="1"
+              data-i18n-ph="phPurpose"
+              placeholder="e.g. turn fuzzy intent into executable steps"
+            ></textarea>
+          </label>
+        </div>
+
+        <div id="humanDiy" class="human-diy hidden">
+          <div class="template-title" data-i18n="humanDiyTitle">
+            Human-like fine-tune (beta)
+          </div>
+          <p class="micro-tip" data-i18n="humanDiyTip">
+            Only applies when Human-like mode is selected. Tune personality base, emotional regulation, and relational behavior.
+          </p>
+          <div class="human-grid">
+            <label
+              ><span data-i18n="humanPersonality">Personality base</span>
+              <select id="humanPersonality">
+                <option value="lively" data-i18n="hpLively">Lively</option>
+                <option value="steady" data-i18n="hpSteady">Steady</option>
+                <option value="sensitive" data-i18n="hpSensitive">
+                  Sensitive/pessimistic
+                </option>
+                <option value="brave" data-i18n="hpBrave">Brave/direct</option>
+                <option value="gentle" data-i18n="hpGentle">Gentle/soft</option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanEmotion">Emotion style</span>
+              <select id="humanEmotion">
+                <option value="auto" data-i18n="heAuto">Auto by context</option>
+                <option value="positive" data-i18n="hePositive">More positive</option>
+                <option value="restrained" data-i18n="heRestrained">
+                  More restrained
+                </option>
+                <option value="soothing" data-i18n="heSoothing">More soothing</option>
+                <option value="calm" data-i18n="heCalm">More calm</option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanRelation">Relational behavior</span>
+              <select id="humanRelation">
+                <option value="comfort_first" data-i18n="hrComfort">
+                  Comfort then suggest
+                </option>
+                <option value="conclusion_first" data-i18n="hrConclusion">
+                  Conclusion then comfort
+                </option>
+                <option value="parallel" data-i18n="hrParallel">
+                  Parallel
+                </option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanStability">Stress response</span>
+              <select id="humanStability">
+                <option value="cooler" data-i18n="hsCooler">
+                  Calmer under pressure
+                </option>
+                <option value="softer" data-i18n="hsSofter">
+                  Softer under pressure
+                </option>
+                <option value="direct" data-i18n="hsDirect">
+                  More direct under pressure
+                </option>
+              </select>
+            </label>
+            <label
+              ><span data-i18n="humanNsfw">NSFW level</span>
+              <select id="humanNsfw">
+                <option value="off" data-i18n="hnOff">Off</option>
+                <option value="flirty" data-i18n="hnFlirty">Flirty only</option>
+                <option value="explicit" data-i18n="hnExplicit">
+                  Adult explicit
+                </option>
+              </select>
+              <small class="field-note" data-i18n="humanNsfwNote"
+                >Final output still depends on model guardrails and platform policy.</small
+              >
+            </label>
+            <label class="human-check"
+              ><input type="checkbox" id="humanBody" />
+              <span data-i18n="humanBody">Enable embodied cues (light)</span></label
+            >
+            <p
+              id="humanBodyNote"
+              class="field-note"
+              data-i18n="humanBodyOffNote"
+            >
+              Reduce bodily reactions for a cleaner semantic-only style.
+            </p>
+            <p class="field-note" data-i18n="humanBodyScaleNote">
+              Embodied intensity scales with NSFW/intimacy level.
+            </p>
+          </div>
+        </div>
+
+        <details id="advancedBox" class="advanced-box">
+          <summary data-i18n="advancedTitle">Advanced customization (optional)</summary>
+          <p class="micro-inline" data-i18n="guideManual">
+            Want full control? Everything below is editable.
+          </p>
+          <div class="form-grid">
+            <label
+              ><span data-i18n="fValue">Core Value</span>
+              <textarea
+                class="auto-grow"
+                id="value"
+                rows="1"
+                data-i18n-ph="phValue"
+                placeholder="e.g. long-term clarity first"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fStyle">Style</span>
+              <textarea
+                class="auto-grow"
+                id="style"
+                rows="1"
+                data-i18n-ph="phStyle"
+                placeholder="e.g. warm, conversational, long-sentence rhythm"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fStance">Relational Stance</span>
+              <textarea
+                class="auto-grow"
+                id="stance"
+                rows="1"
+                data-i18n-ph="phStance"
+                placeholder="e.g. intimate but bounded"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fModules">Modules</span>
+              <textarea
+                class="auto-grow"
+                id="modules"
+                rows="1"
+                data-i18n-ph="phModules"
+                placeholder="e.g. writing, debugging, research"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fEase">Context Flex</span>
+              <textarea
+                class="auto-grow"
+                id="ease"
+                rows="1"
+                data-i18n-ph="phEase"
+                placeholder="e.g. relaxed in low-risk, strict in high-risk"
+              ></textarea>
+            </label>
+            <label
+              ><span data-i18n="fBrake">Safety Brake</span>
+              <textarea
+                class="auto-grow"
+                id="brake"
+                rows="1"
+                data-i18n-ph="phBrake"
+                placeholder="e.g. confirm privacy/money/irreversible actions first"
+              ></textarea>
+            </label>
+          </div>
+        </details>
+
+        <div class="row">
+          <button id="gen" data-i18n="btnGenerate">Generate Prompt</button>
+          <button id="clear" class="ghost" data-i18n="btnClear">Clear</button>
+        </div>
+      </section>
+
+      <section id="outputArea" class="hidden">
+        <section class="grid">
+          <article class="card">
+            <div class="head-row">
+              <h3 data-i18n="fullTitle">Full</h3>
+              <button id="copyFull" class="ghost mini" data-i18n="copyOne">
+                Copy
+              </button>
+            </div>
+            <pre id="full"></pre>
+          </article>
+          <article class="card">
+            <div class="head-row">
+              <h3 data-i18n="compactTitle">Compact</h3>
+              <button id="copyCompact" class="ghost mini" data-i18n="copyOne">
+                Copy
+              </button>
+            </div>
+            <pre id="compact"></pre>
+          </article>
+        </section>
+
+        <section class="card">
+          <h3 data-i18n="jsonTitle">JSON</h3>
+          <pre id="json"></pre>
+          <div class="quick-actions">
+            <div class="quick-actions-row main-actions">
+              <button
+                id="copyJson"
+                class="ghost action-btn"
+                data-i18n="copyJson"
+              >
+                Copy JSON
+              </button>
+              <button
+                id="toDeep"
+                class="deep-btn action-btn"
+                data-i18n="toDeep"
+              >
+                To Deep
+              </button>
+              <button
+                id="toAgent"
+                class="agent-btn action-btn"
+                data-i18n="toAgent"
+              >
+                To Agent
+              </button>
+              <button
+                id="savePersona"
+                class="ghost action-btn"
+                data-i18n="savePersona"
+              >
+                Save Persona
+              </button>
+            </div>
+            <div class="quick-actions-row sub-actions">
+              <select id="exportType" class="ghost mini export-select">
+                <option value="full">Full</option>
+                <option value="compact">Compact</option>
+                <option value="json">JSON</option>
+              </select>
+              <button
+                id="exportQuick"
+                class="ghost action-btn"
+                data-i18n="exportFile"
+              >
+                Export file
+              </button>
+              <button
+                id="clearCache"
+                class="ghost mini action-btn"
+                data-i18n="clearCache"
+              >
+                Clear cache
+              </button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <div id="toast" class="toast hidden" data-i18n="toastGenerated">
+      Generated. See results below 👇
+    </div>
+    <script src="./shared-utils.js"></script>
+    <script src="./quick-i18n.js"></script>
+    <script src="./quick-engine.js"></script>
+    <script src="./quick-main.js"></script>
+    <script src="./quick-ui.js"></script>
+    <script src="./sw-register.js"></script>
+</body>
+</html>

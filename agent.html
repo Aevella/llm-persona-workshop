@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Framework Builder</title>
+    <link rel="stylesheet" href="./agent.css" />
+    <link id="manifestLink" rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta id="appleTitleMeta" name="apple-mobile-web-app-title" content="VibePrompt" />
+</head>
+  <body>
+    <main class="wrap">
+      <header class="card hero">
+        <div class="lang-row">
+          <button id="langToggleAgent" class="ghost mini">EN</button>
+        </div>
+        <h1 data-i18n="title">Agent Framework Builder</h1>
+        <p data-i18n="subtitle">
+          Core + Modes + Composer: set core first, add scenarios, then export OpenClaw markdown files.
+        </p>
+        <p><a href="./home.html" data-i18n="back">← Back to workshop</a></p>
+      </header>
+
+      <div class="flow-title sticky-title" data-i18n="flowAgentTitle">
+        You are editing: Scenario layer (agent-mode module split)
+      </div>
+      <section class="flow-nav agent-flow">
+        <div class="flow-row">
+          <a class="flow-item" href="./index.html">Quick</a>
+          <a class="flow-item" href="./intuition.html">Deep</a>
+          <a class="flow-item current" href="./agent.html">Agent</a>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 data-i18n="coreTitle">Core (Anchor)</h2>
+        <div class="row">
+          <button id="loadPharosCase" class="ghost" data-i18n="loadPharosCase">
+            Load example: Corveil Aster
+          </button>
+        </div>
+        <label
+          ><span data-i18n="purpose">Purpose</span
+          ><textarea id="purpose"></textarea>
+        </label>
+        <label
+          ><span data-i18n="value">Core Value</span
+          ><textarea id="value"></textarea>
+        </label>
+        <label
+          ><span data-i18n="brake">Global Brake</span
+          ><textarea id="brake"></textarea>
+        </label>
+      </section>
+
+      <section class="card">
+        <div class="mode-head">
+          <h2 data-i18n="modeTitle">Mode (Scenario modules)</h2>
+          <button
+            id="toggleDeleteMode"
+            class="ghost mini danger-toggle"
+            data-i18n="deleteMode"
+          >
+            Delete mode
+          </button>
+        </div>
+        <div class="chips" id="modeRow"></div>
+        <label
+          ><span data-i18n="entryCond">Entry condition (when to trigger)</span
+          ><textarea id="entryCond"></textarea>
+        </label>
+        <label
+          ><span data-i18n="sceneGoal">Scene goal</span
+          ><textarea id="sceneGoal"></textarea>
+        </label>
+        <label
+          ><span data-i18n="sceneTone">Tone & stance</span
+          ><textarea id="sceneTone"></textarea>
+        </label>
+        <label
+          ><span data-i18n="sceneRisk">Risk handling</span
+          ><textarea id="sceneRisk"></textarea>
+        </label>
+        <label
+          ><span data-i18n="sceneExit">Exit condition</span
+          ><textarea id="sceneExit"></textarea>
+        </label>
+        <div class="row wheel-wrap">
+          <button
+            id="fillModeExample"
+            class="ghost"
+            data-i18n="fillModeExample"
+          >
+            Fill current mode example
+          </button>
+          <div
+            id="exampleWheel"
+            class="example-wheel hidden"
+            aria-hidden="true"
+          >
+            <button class="wheel-opt" data-style="warm" data-i18n="styleWarm">
+              Warm
+            </button>
+            <button
+              class="wheel-opt"
+              data-style="efficient"
+              data-i18n="styleEfficient"
+            >
+              Efficient
+            </button>
+            <button
+              class="wheel-opt"
+              data-style="intimate"
+              data-i18n="styleIntimate"
+            >
+              Intimate
+            </button>
+            <button
+              class="wheel-opt"
+              data-style="playful"
+              data-i18n="stylePlayful"
+            >
+              Playful
+            </button>
+            <button
+              class="wheel-opt wheel-opt-exp"
+              data-style="provocative"
+              data-i18n="styleProvocative"
+            >
+              Provocative (Exp)
+            </button>
+          </div>
+        </div>
+        <label
+          ><span data-i18n="extra">Extra note (optional)</span
+          ><textarea id="extra"></textarea>
+        </label>
+        <div class="row">
+          <button id="gen" data-i18n="generate">Generate framework files</button>
+          <button id="clearAgent" class="ghost" data-i18n="clear">Clear</button>
+        </div>
+      </section>
+
+      <section id="out" class="card hidden">
+        <h2 data-i18n="outputTitle">Export preview</h2>
+        <div class="row">
+          <button class="ghost" id="viewSoul">SOUL.md</button>
+          <button class="ghost" id="viewAgents">AGENTS.md</button>
+          <button class="ghost" id="viewUser">USER.md</button>
+          <button class="ghost" id="viewTools">TOOLS.md</button>
+          <button id="exportFile" data-i18n="exportFile">Export file</button>
+          <button class="ghost" id="savePersonaAgent" data-i18n="savePersona">
+            Save to Persona Vault
+          </button>
+          <button class="ghost" id="copyPreview" data-i18n="copyOne">
+            Copy
+          </button>
+        </div>
+        <pre id="preview"></pre>
+      </section>
+    </main>
+    <div id="toast" class="toast hidden">Done</div>
+    <script src="./shared-utils.js"></script>
+    <script src="./agent.js"></script>
+    <script src="./sw-register.js"></script>
+</body>
+</html>

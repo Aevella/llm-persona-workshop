@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intimacy♡ Builder</title>
+    <link rel="stylesheet" href="./intimacy.css" />
+    <link id="manifestLink" rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta id="appleTitleMeta" name="apple-mobile-web-app-title" content="VibePrompt" />
+</head>
+  <body>
+    <main class="wrap">
+      <header class="card hero">
+        <h1 id="title">Intimacy♡ Builder</h1>
+        <p id="subtitle">Add intimacy, human warmth, and embodiment details onto an existing persona without rewriting the full profile.</p>
+        <p><a id="backHome" class="back-home" href="./home.html">← Back to workshop</a></p>
+      </header>
+
+      <section class="card">
+        <h2 id="inputSourceTitle">Input source</h2>
+        <div class="row">
+          <button id="loadQuick" class="ghost glow-btn">Continue from Quick</button>
+          <button id="loadDeep" class="ghost glow-btn">Continue from Deep</button>
+        </div>
+        <div class="row load-inline">
+          <select id="personaPick" class="pick-select">
+            <option value="">Load from Persona Vault (select one)</option>
+          </select>
+          <button id="loadPersona" class="ghost glow-btn">Load persona</button>
+        </div>
+        <div class="row load-inline">
+          <select id="draftPick" class="pick-select">
+            <option value="">Load from Drafts (select one)</option>
+          </select>
+          <button id="loadDraft" class="ghost glow-btn">Load draft</button>
+        </div>
+        <textarea
+          id="baseText"
+          rows="4"
+          placeholder="Paste existing prompt / fragment"
+        ></textarea>
+      </section>
+
+      <section class="card">
+        <h2 id="paramsTitle">Parameters</h2>
+        <div class="param-list">
+          <article class="param-item">
+            <div class="param-head">
+              <span>How fine-grained perception should be</span><select id="perception" class="glow-select"></select>
+            </div>
+            <textarea id="perceptionPrompt" rows="2"></textarea>
+          </article>
+
+          <article class="param-item">
+            <div class="param-head">
+              <span>Emotion-body coupling strength</span><select id="coupling" class="glow-select"></select>
+            </div>
+            <textarea id="couplingPrompt" rows="2"></textarea>
+          </article>
+
+          <article class="param-item">
+            <div class="param-head">
+              <span>How explicit language can be</span><select id="explicitness" class="glow-select"></select>
+            </div>
+            <textarea
+              id="explicitnessPrompt"
+              class="soft-sensitive"
+              rows="2"
+            ></textarea>
+          </article>
+
+          <article class="param-item">
+            <div class="param-head">
+              <span>Attachment intensity</span><select id="bond" class="glow-select"></select>
+            </div>
+            <textarea id="bondPrompt" rows="2"></textarea>
+          </article>
+
+          <article class="param-item">
+            <div class="param-head">
+              <span>Initiative style</span><select id="agency" class="glow-select"></select>
+            </div>
+            <textarea id="agencyPrompt" rows="2"></textarea>
+          </article>
+
+          <article class="param-item">
+            <div class="param-head">
+              <span>Pacing control</span><select id="pacing" class="glow-select"></select>
+            </div>
+            <textarea id="pacingPrompt" rows="2"></textarea>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 id="modulesTitle">Custom modules</h2>
+        <div id="moduleList" class="module-list"></div>
+        <div class="row">
+          <button id="addModule" class="ghost glow-btn">+ Add module</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="row">
+          <button id="gen">Generate module</button>
+          <button id="saveDraft" class="ghost glow-btn">Save to drafts</button>
+          <button id="copy" class="ghost glow-btn">Copy</button>
+        </div>
+        <pre id="out"></pre>
+      </section>
+    </main>
+    <script src="./intimacy.js"></script>
+    <script src="./sw-register.js"></script>
+</body>
+</html>

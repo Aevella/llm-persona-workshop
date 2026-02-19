@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibePrompt</title>
+  <link rel="stylesheet" href="./workshop-home.css" />
+  <link id="manifestLink" rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0f1115" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta id="appleTitleMeta" name="apple-mobile-web-app-title" content="VibePrompt" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero card">
+      <div class="lang-row"><button id="langToggleHome" class="ghost mini">EN</button></div>
+      <h1><img class="brand-icon" src="./assets/logo.jpg" alt="logo" /> <span data-i18n="homeTitle">VibePrompt</span></h1>
+      <p data-i18n="homeSubtitle">Pick the path you need right now: generate fast or build deep.</p>
+    </header>
+    <div id="pwaTip" class="card" style="padding:10px 12px;margin:10px 0;display:none;opacity:.92">
+      <span data-i18n="pwaTip">Tip: Add this app to your home screen for faster full-screen access.</span>
+      <button id="dismissPwaTip" class="ghost mini" style="float:right">×</button>
+    </div>
+
+    <section class="grid">
+      <a class="card entry" href="./index.html">
+        <h2 data-i18n="quickTitle">Quick (Faster)</h2>
+        <p data-i18n="quickDesc">For fast shipping. Fill blocks + stack fragments, then output a usable prompt quickly.</p>
+        <span data-i18n="enter">Enter →</span>
+      </a>
+
+
+      <a class="card entry" href="./intuition.html">
+        <h2 data-i18n="deepTitle">Deep (Deeper)</h2>
+        <p data-i18n="deepDesc">For deep building. Anchor subject first, then define motive and boundary into an iterable draft.</p>
+        <span data-i18n="enter">Enter →</span>
+      </a>
+
+      <a class="card entry" href="./agent.html">
+        <h2 data-i18n="agentTitle">Agent (Framework)</h2>
+        <p data-i18n="agentDesc">Core + Mode + Composer: generate exportable OpenClaw markdown frameworks quickly.</p>
+        <span data-i18n="enter">Enter →</span>
+      </a>
+
+      <a class="card entry story-entry" href="./story.html">
+        <h2 data-i18n="storyTitle">Story (Memory)</h2>
+        <p data-i18n="storyDesc">Turn anniversaries, journals, and chat memories into reusable skeletons: memory input → AI extraction → prompt.</p>
+        <span data-i18n="enter">Enter →</span>
+      </a>
+
+      <a id="intimacyEntry" class="card entry intimacy-entry hidden" href="./intimacy.html">
+        <h2 data-i18n="intimacyTitle">Intimacy♡</h2>
+        <p data-i18n="intimacyDesc">NSFW + emotional layering module: add intimate detail onto existing personas.</p>
+        <small class="unlock-note" data-i18n="intimacyUnlockNote">Unlocked (based on saved history)</small>
+        <span data-i18n="enter">Enter →</span>
+      </a>
+    </section>
+
+    <a class="card vault-entry" href="./vault.html">
+      <div class="vault-title" data-i18n="vaultTitle">My Vault</div>
+      <div class="vault-sub" data-i18n="vaultDesc">Store full personas and module fragments; keep personalized assets here.</div>
+    </a>
+
+    <p class="tiny" data-i18n="homeTiny">Planned expansions: reverse persona from text / Module Forge / prompt diagnostics / consistency evaluation.</p>
+
+    <script src="./shared-utils.js"></script>
+    <script>
+      const I18N_HOME={
+        zh:{homeTitle:'你的提示词',homeSubtitle:'选一个你现在最想走的入口，先做出结果，再慢慢加深。',quickTitle:'Quick（轻量）',quickDesc:'不用想太多，先拼一个能用的 Prompt。',deepTitle:'Deep（主语）',deepDesc:'从“谁在说话”出发，补齐动因、边界和稳定性。',agentTitle:'Agent（场景）',agentDesc:'把核心拆成可执行场景模块，导出 OpenClaw md。',storyTitle:'Story（回忆）',storyDesc:'把纪念日、日记、聊天回忆提炼成可复用骨架。',intimacyTitle:'Intimacy♡',intimacyDesc:'NSFW + 情感增强模块：给已有人格叠加亲密细节。',intimacyUnlockNote:'已解锁（基于历史记录）',vaultTitle:'我的仓库',vaultDesc:'保存完整人格与模块碎片，后续个性化资产都放这里。',comingSoon:'即将上线',enter:'进入 →',homeTiny:'后续方向：Story 提取 / 配置导入导出 / Prompt 诊断 / 一致性评估。',pwaTip:'提示：可添加到主屏幕，像应用一样全屏打开。'},
+        en:{homeTitle:'VibePrompt',homeSubtitle:'Pick one path that fits your mood now: ship fast, then deepen later.',quickTitle:'Quick (Light)',quickDesc:'Start simple and get a usable prompt in minutes.',deepTitle:'Deep (Subject)',deepDesc:'Anchor who is speaking, then refine motive, boundary, and stability.',agentTitle:'Agent (Scenarios)',agentDesc:'Split core intent into executable scene modules and export OpenClaw md.',storyTitle:'Story (Memory)',storyDesc:'Extract reusable skeletons from anniversaries, diaries, and chat memories.',intimacyTitle:'Intimacy♡',intimacyDesc:'NSFW + emotional layering to add intimate detail onto existing personas.',intimacyUnlockNote:'Unlocked (based on saved history)',vaultTitle:'My Vault',vaultDesc:'Store full personas and modular snippets. Keep your personalized assets here.',comingSoon:'Coming soon',enter:'Enter →',homeTiny:'Next: Story extraction / config import-export / prompt diagnosis / consistency review.',pwaTip:'Tip: Add this app to your home screen for faster full-screen access.'}
+      };
+      function setLangHome(lang){
+        const d=I18N_HOME[lang]||I18N_HOME.zh;
+        document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
+        const b=document.getElementById('langToggleHome'); if(b) b.textContent=lang==='zh'?'EN':'中';
+        localStorage.setItem('pb_lang',lang);
+
+        // Keep install-name in sync for iOS/Android add-to-home-screen flow
+        const brand = lang==='zh' ? '你的提示词' : 'VibePrompt';
+        document.title = brand;
+        const appleMeta = document.getElementById('appleTitleMeta');
+        if(appleMeta) appleMeta.setAttribute('content', brand);
+        const manifestLink = document.getElementById('manifestLink');
+        if(manifestLink) manifestLink.setAttribute('href', lang==='zh' ? './manifest.zh.webmanifest' : './manifest.en.webmanifest');
+      }
+      function shouldUnlockIntimacy(){
+        if(window.PB_SHARED?.hasIntimacyUnlock && window.PB_SHARED?.readPersonaLibrary){
+          return window.PB_SHARED.hasIntimacyUnlock(window.PB_SHARED.readPersonaLibrary());
+        }
+        return false;
+      }
+      function syncIntimacyEntry(){
+        const n=document.getElementById('intimacyEntry');
+        if(!n) return;
+        const unlocked=shouldUnlockIntimacy();
+        n.classList.toggle('hidden', !unlocked);
+        const note=n.querySelector('.unlock-note');
+        if(note) note.classList.toggle('hidden', !unlocked);
+      }
+      const saved=localStorage.getItem('pb_lang') || 'en';
+      setLangHome(saved);
+      syncIntimacyEntry();
+      document.getElementById('langToggleHome')?.addEventListener('click',()=>setLangHome((localStorage.getItem('pb_lang')||'en')==='zh'?'en':'zh'));
+      const pwaTip=document.getElementById('pwaTip');
+      const dismissPwaTip=document.getElementById('dismissPwaTip');
+      const pwaTipKey='pb_pwa_tip_dismissed_v1';
+      if(pwaTip && !localStorage.getItem(pwaTipKey)) pwaTip.style.display='block';
+      dismissPwaTip?.addEventListener('click',()=>{
+        localStorage.setItem(pwaTipKey,'1');
+        if(pwaTip) pwaTip.style.display='none';
+      });
+
+    </script>
+  </main>
+  <script src="./sw-register.js"></script>
+</body>
+</html>

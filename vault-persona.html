@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vault - Persona</title>
+  <link rel="stylesheet" href="./vault.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero card">
+      <div class="lang-row"><button id="langToggleVaultPersona" class="ghost mini">EN</button></div>
+      <h1><span data-i18n="title">人格库（完整）</span></h1>
+      <p data-i18n="sub">点右上角 ✓ 直接复制完整人格稿。</p>
+      <p><a class="back-home" href="./vault.html" data-i18n="back">← 返回 My Vault</a></p>
+    </header>
+
+    <section class="card">
+      <div id="personaList" class="vault-list single"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden">Copied</div>
+  <script>
+    const I18N_VAULT_PERSONA={
+      zh:{title:'人格库（完整）',sub:'点右上角 ✓ 直接复制完整人格稿。',back:'← 返回 My Vault'},
+      en:{title:'Persona Vault (Full)',sub:'Tap ✓ in the top-right to copy full persona text instantly.',back:'← Back to My Vault'}
+    };
+    function setLangVP(lang){
+      const d=I18N_VAULT_PERSONA[lang]||I18N_VAULT_PERSONA.zh;
+      document.querySelectorAll('[data-i18n]').forEach(n=>{const k=n.getAttribute('data-i18n'); if(d[k]) n.textContent=d[k];});
+      const b=document.getElementById('langToggleVaultPersona'); if(b) b.textContent=lang==='zh'?'EN':'中';
+      localStorage.setItem('pb_lang',lang);
+    }
+    const saved=localStorage.getItem('pb_lang') || 'en';
+    setLangVP(saved);
+    document.getElementById('langToggleVaultPersona')?.addEventListener('click',()=>setLangVP((localStorage.getItem('pb_lang')||'en')==='zh'?'en':'zh'));
+  </script>
+  <script src="./vault.js"></script>
+</body>
+</html>

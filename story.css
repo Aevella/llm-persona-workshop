@@ -1,0 +1,205 @@
+:root {
+  --bg: #0b0a14;
+  --bg2: #151226;
+  --card: #151126;
+  --card2: #1d1830;
+  --text: #f0ecff;
+  --muted: #b8addf;
+  --line: #433a71;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: radial-gradient(
+    circle at top right,
+    #21183b 0%,
+    #0b0a14 45%,
+    #080711 100%
+  );
+  color: var(--text);
+  font-family: "Avenir Next", "PingFang SC", sans-serif;
+}
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 14px;
+}
+.card {
+  background: linear-gradient(160deg, var(--card), var(--card2));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.lang-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+.hero h1 {
+  margin: 0 0 6px;
+  font-size: 30px;
+  color: #f4eeff;
+  font-family: "Baskerville", "Times New Roman", serif;
+}
+.hero p {
+  margin: 0 0 6px;
+  color: var(--muted);
+}
+.back-home {
+  font-size: 12px;
+  color: #d8cbff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+h2 {
+  margin: 0 0 8px;
+  color: #e8dcff;
+  font-size: 18px;
+}
+.tip {
+  margin: 0 0 8px;
+  color: #c8bcf3;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.q-card {
+  border: 1px dashed #5b4d93;
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(9, 8, 17, 0.45);
+}
+.q-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.q-title {
+  font-size: 13px;
+  color: #f1eaff;
+  line-height: 1.5;
+}
+.q-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.q-meta {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 11px;
+  color: #b7acd8;
+  margin-top: 4px;
+}
+textarea,
+pre {
+  width: 100%;
+  border: 1px solid #4b417f;
+  background: #0e0c1a;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+.q-answer {
+  min-height: 74px;
+}
+pre {
+  min-height: 120px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+button {
+  border: 1px solid #9a82db;
+  background: linear-gradient(135deg, #e2d6ff, #c5b3f5);
+  color: #1b1531;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+button.ghost {
+  background: transparent;
+  color: #e5dbff;
+  border-color: #6f5db3;
+}
+
+/* Keep Story's save-to-vault action in page theme color (purple), same as other pages */
+#savePersona {
+  background: linear-gradient(135deg, #e2d6ff, #c5b3f5);
+  color: #1b1531;
+  border-color: #9a82db;
+  box-shadow:
+    0 0 0 1px rgba(154, 130, 219, 0.18),
+    0 6px 14px rgba(154, 130, 219, 0.16);
+}
+#savePersona:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+button.mini {
+  padding: 4px 7px;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 1px rgba(154, 130, 219, 0.18),
+    0 4px 10px rgba(154, 130, 219, 0.12);
+}
+button.mini:hover {
+  box-shadow:
+    0 0 0 1px rgba(180, 160, 235, 0.25),
+    0 6px 12px rgba(170, 150, 235, 0.16);
+}
+.fold {
+  margin-top: 8px;
+  border: 1px solid #4b417f;
+  border-radius: 10px;
+  padding: 8px;
+  background: rgba(14, 12, 26, 0.45);
+}
+.fold summary {
+  cursor: pointer;
+  color: #e6dcff;
+  font-size: 13px;
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fold summary::-webkit-details-marker {
+  display: none;
+}
+.fold summary::before {
+  content: "▸";
+  font-size: 12px;
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.fold[open] summary::before {
+  content: "▾";
+}
