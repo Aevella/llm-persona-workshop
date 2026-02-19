@@ -1,7 +1,7 @@
 # Persona Workshop Builder (Public)
 
 Channel: **public release**  
-Beta sibling: `../persona-builder-web`
+Variant policy: see `VARIANT.md`
 
 A lightweight web workshop for building AI persona prompts in three layers:
 
