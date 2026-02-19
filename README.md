@@ -39,3 +39,12 @@ Internal deployment:
 
 - This repo is intended as a clean, reviewable app workspace.
 - Legacy snapshots are excluded from the public version.
+
+## Current working style (lightweight)
+
+This project is intentionally kept as a **playable sandbox** first, framework second:
+
+- Prioritize quick experimentation and shareability
+- Keep files flat enough to edit fast
+- Do light organization only (naming consistency + docs + guardrails)
+- Avoid heavy refactor unless it directly improves iteration speed
