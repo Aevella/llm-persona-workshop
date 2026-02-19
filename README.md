@@ -1,4 +1,4 @@
-# VibePrompt
+# VibePrompt (formerly Persona Workshop)
 
 A lightweight web workshop for building AI persona prompts in three layers:
 
@@ -10,10 +10,14 @@ Also includes:
 - **Vault Persona** (saved full personas)
 - **Draftbook** (editable scratchpad with drag sort)
 
+## Public links
+
+- GitHub (public): https://github.com/Aevella/vibeprompt
+
 ## Run locally
 
 ```bash
-cd persona-builder-web
+cd vibeprompt
 python3 -m http.server 8790
 ```
 
