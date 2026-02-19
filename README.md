@@ -1,4 +1,4 @@
-# Persona Workshop Builder
+# VibePrompt
 
 A lightweight web workshop for building AI persona prompts in three layers:
 

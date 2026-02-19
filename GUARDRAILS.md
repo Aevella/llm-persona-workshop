@@ -1,6 +1,6 @@
 # GUARDRAILS.md
 
-> Persona Workshop / Persona Builder Web 的统一护栏文档（产品 / 安全 / 合规 / 质量 / 性能 / 发布）
+> VibePrompt / Persona Builder Web 的统一护栏文档（产品 / 安全 / 合规 / 质量 / 性能 / 发布）
 
 ## 0) 护栏目标
 - 保证：可持续迭代、可回滚、可解释、可发布。

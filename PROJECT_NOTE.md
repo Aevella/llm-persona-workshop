@@ -2,7 +2,7 @@
 
 ## What this is
 
-`llm-persona-workshop` is a living playground for composing persona prompts and interaction modules.
+`vibeprompt` is a living playground for composing persona prompts and interaction modules.
 
 Primary goal: **make ideas tangible fast** (tweak → preview → export/share).
 
