@@ -24,17 +24,13 @@ Open: `http://localhost:8790`
 
 ## Deploy (Vercel)
 
-Release helper:
+Release flow:
 
 ```bash
-./scripts/release-bump.sh patch
+./scripts/release-public.sh patch
 ```
 
-Boundary check (before release):
-
-```bash
-./scripts/check-variant-boundary.sh
-```
+(Equivalent manual steps: `check-variant-boundary` -> `release-bump` -> commit/push -> `deploy-public`)
 
 ## Project structure
 
