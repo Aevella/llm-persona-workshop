@@ -30,6 +30,12 @@ Release helper:
 ./scripts/release-bump.sh patch
 ```
 
+Boundary check (before release):
+
+```bash
+./scripts/check-variant-boundary.sh
+```
+
 ## Project structure
 
 - `index.html` / `quick-*` — Quick layer
@@ -41,4 +47,4 @@ Release helper:
 ## Notes
 
 - This repo is intended as a clean, reviewable app workspace.
-- Legacy snapshots are excluded from the public version.
+- Legacy records/checklists are archived under `docs/archive/`.
