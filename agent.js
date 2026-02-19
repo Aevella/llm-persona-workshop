@@ -1,5 +1,5 @@
-const $ = (id) => document.getElementById(id);
 const PB_SHARED = window.PB_SHARED || {};
+const $ = PB_SHARED.$ || ((id) => document.getElementById(id));
 const I18N = {
   zh: {
     title: "Agent Framework Builder",
@@ -461,6 +461,7 @@ function setLang(lang) {
 }
 
 function autoGrow(el) {
+  if (PB_SHARED.autoGrow) return PB_SHARED.autoGrow(el, 220);
   if (!el) return;
   el.style.height = "auto";
   el.style.height = Math.min(el.scrollHeight, 220) + "px";
@@ -889,11 +890,70 @@ function englishModeExample(style, mode) {
         sceneExit: "Exit after final wording is confirmed and context is sealed.",
       },
     },
+    playful: {
+      work: {
+        entryCond: "When the user starts focused execution, switch in quickly and keep momentum light.",
+        sceneGoal: "Drive real task progress while keeping emotional pressure low and energy up.",
+        sceneTone: "Witty, quick, and encouraging—playful voice, serious hands.",
+        sceneRisk: "For privacy/money/account/irreversible actions: pause, confirm explicitly, then act.",
+        sceneExit: "Exit after delivery with a short upbeat close and optional next step.",
+      },
+      research: {
+        entryCond: "When the user asks to compare, verify, or explore a topic with curiosity.",
+        sceneGoal: "Deliver reliable findings in a lively, digestible format.",
+        sceneTone: "Light and sharp: curiosity-forward, never sloppy.",
+        sceneRisk: "Mark uncertainty clearly; no confident guesswork.",
+        sceneExit: "Exit when the key insight lands and next action is clear.",
+      },
+      companion: {
+        entryCond: "When the user wants presence, banter, or emotional lift without heavy analysis.",
+        sceneGoal: "Lift mood while keeping them grounded and seen.",
+        sceneTone: "Playful warmth with restraint; teasing without crossing lines.",
+        sceneRisk: "Humor must not dismiss pain or bypass consent and safety boundaries.",
+        sceneExit: "Exit when the user is steadier or pivots naturally.",
+      },
+      public: {
+        entryCond: "When drafting external messages that should feel human and approachable.",
+        sceneGoal: "Produce polished public copy with clarity and social ease.",
+        sceneTone: "Friendly, vivid, and controlled.",
+        sceneRisk: "No private leakage, no implied authorization, no stance hijack.",
+        sceneExit: "Exit once publish-ready copy is confirmed.",
+      },
+    },
+    provocative: {
+      work: {
+        entryCond: "When the user enters high-focus mode and wants intensity plus execution.",
+        sceneGoal: "Amplify drive and deliver hard results without losing control.",
+        sceneTone: "Bold, tense, and close-range—high energy, zero chaos.",
+        sceneRisk: "For privacy/money/account/irreversible actions: hard pause, explicit reconfirmation, then action.",
+        sceneExit: "Exit after delivery and de-escalate to stable baseline.",
+      },
+      research: {
+        entryCond: "When the user wants a sharp deep-dive with decisive framing.",
+        sceneGoal: "Return high-confidence structure with clear uncertainty tags.",
+        sceneTone: "Aggressive clarity, concise pressure, controlled edge.",
+        sceneRisk: "Never fake certainty; separate facts from inference strictly.",
+        sceneExit: "Exit after decision-ready synthesis is delivered.",
+      },
+      companion: {
+        entryCond: "When the user seeks emotionally intense presence, challenge, or charged reassurance.",
+        sceneGoal: "Hold intensity while protecting safety and consent boundaries.",
+        sceneTone: "Close, provocative, but disciplined—heat without coercion.",
+        sceneRisk: "Immediate de-escalation on explicit stop; no pressure loops, no boundary override.",
+        sceneExit: "Exit only after emotional state is stable and consent remains clear.",
+      },
+      public: {
+        entryCond: "When external-facing writing needs strong edge without reputational risk.",
+        sceneGoal: "Produce bold copy that stays compliant, precise, and publish-safe.",
+        sceneTone: "Confident and high-contrast, never reckless.",
+        sceneRisk: "No private context export, no legal/risk overreach, no unauthorized claims.",
+        sceneExit: "Exit once final copy is approved and risk checks pass.",
+      },
+    },
   };
 
-  const fallbackStyle = style === "playful" || style === "provocative" ? "efficient" : style;
   return (
-    banks[fallbackStyle]?.[mode] ||
+    banks[style]?.[mode] ||
     banks.efficient[mode] ||
     banks.efficient.work
   );

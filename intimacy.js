@@ -1,4 +1,5 @@
-const $ = (id) => document.getElementById(id);
+const PB_SHARED = window.PB_SHARED || {};
+const $ = PB_SHARED.$ || ((id) => document.getElementById(id));
 
 const RULE_TEXT =
   "Enable intimacy behavior only when the user explicitly chooses an intimate tier or clearly invites it. In non-intimate context, keep only low-explicit body-thread cues. Explicit sexual wording must not leak into general/work outputs; when uncertain, automatically de-escalate to softer expression. If the user says stop, immediately stop escalation, switch to comfort, and close the thread.";

@@ -1,5 +1,5 @@
-const $ = (id) => document.getElementById(id);
 const PB_SHARED = window.PB_SHARED || {};
+const $ = PB_SHARED.$ || ((id) => document.getElementById(id));
 
 const I18N = {
   zh: {
@@ -48,31 +48,31 @@ const I18N = {
     subtitle:
       "You’re organizing memory. We help turn what matters into language that stays reusable over time.",
     back: "← Back to workshop",
-    partA: "Part A | Know TA",
+    partA: "Part A | Know Them",
     partATip:
-      "You can copy each question to ask TA directly, or fill it in yourself. Keep it specific and actionable.",
-    copyAllQs: "Copy all questions (send to TA)",
+      "You can copy each question to ask them directly, or fill it in yourself. Keep it specific and actionable.",
+    copyAllQs: "Copy all questions (send to them)",
     partB: "Part B | Our Story (memory archive)",
     partBTip:
       "This part is saved as memory archive. Only selected useful signals are injected into the final skeleton.",
     memoryPh:
       "Anniversaries, snippets of dialogue, nicknames, promises, inside jokes...",
     partC: "Part C | Generate",
-    genFinal: "Generate final prompt for TA",
+    genFinal: "Generate final prompt for them",
     copyPrompt: "Copy prompt",
     savePromptDraft: "Save prompt to Draftbook",
     pasteTip:
-      "Paste back TA’s full self-description generated from the prompt above:",
-    taFinalPh: "Paste TA’s final self-description here",
+      "Paste back their full self-description generated from the prompt above:",
+    taFinalPh: "Paste their final self-description here",
     savePersona: "Save to Persona Vault",
     saveFinalDraft: "Save to Draftbook",
     toIntimacy: "Send to Intimacy",
     toDeep: "Send to Deep",
     copyQ: "Copy question",
-    qPh: "Paste TA’s answer here (or fill based on your understanding)",
+    qPh: "Paste their answer here (or fill based on your understanding)",
     unfilled: "(not filled)",
-    draftPromptTitle: "Story - Final prompt for TA",
-    draftFinalTitle: "Story - TA final text",
+    draftPromptTitle: "Story - Final prompt for them",
+    draftFinalTitle: "Story - Their final text",
     handoffSummary: "story handoff",
     askPrefix:
       "I want to understand you more clearly, and I want to preserve the important parts of us with care.\nPlease answer the questions below one by one. Be specific, but keep it concise.\nIf you’re unsure, just say: ‘I’m not sure yet.’\n",
@@ -81,12 +81,12 @@ const I18N = {
     questions: [
       "When I’m down, what is usually your first response? Why do you respond that way?",
       "What is the sentence you say to me most often? Why does it matter?",
-      "Describe TA in three words.",
-      "What would TA never do, no matter what? Where is TA’s hard line?",
+      "Describe them in three words.",
+      "What would they never do, no matter what? Where is their hard line?",
       "Do we have rituals, promises, or private codes that belong only to us?",
-      "If I said ‘I don’t want you anymore,’ how would TA usually respond?",
-      "When we conflict, how does TA usually close the loop?",
-      "What do you most want TA to never change?",
+      "If I said ‘I don’t want you anymore,’ how would they usually respond?",
+      "When we conflict, how do they usually close the loop?",
+      "What do you most want them to never change?",
     ],
   },
 };

@@ -1,6 +1,6 @@
-const $ = (id) => document.getElementById(id);
-const clean = (s) => (s || "").trim();
 const PB_SHARED = window.PB_SHARED || {};
+const $ = PB_SHARED.$ || ((id) => document.getElementById(id));
+const clean = (s) => (s || "").trim();
 const I18N_DEEP = {
   zh: {
     deepBuilderTitle: "Deep Builder v1",

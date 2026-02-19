@@ -352,16 +352,9 @@ function compactPrompt(L){
 }
 
 
-function extractPurposeSummary(text=''){
-  const t=String(text||'');
-  const m1=t.match(/存在目的[：:]\s*([^\n。]+[。]?)/);
-  if(m1&&m1[1]) return m1[1].trim();
-  const m2=t.match(/其存在是为了([^\n。]+[。]?)/);
-  if(m2&&m2[1]) return ('其存在是为了'+m2[1]).trim();
-  const m3=t.match(/exist(?:s)? to\s+([^\n.]+[.]?)/i);
-  if(m3&&m3[1]) return ('exist to '+m3[1]).trim();
-  return t.replace(/\n+/g,' ').trim().slice(0,120);
-}
+const extractPurposeSummary =
+  window.PB_SHARED?.extractPurposeSummary ||
+  ((text='')=>String(text||'').replace(/\n+/g,' ').trim().slice(0,120));
 
 function savePersonaRecord({title,content,source='quick',summary='',unlockIntimacy=false,meta=null}={}){
   if(window.PB_SHARED?.savePersonaRecord){
@@ -391,6 +384,15 @@ function savePersonaRecord({title,content,source='quick',summary='',unlockIntima
 }
 
 function safeSetItem(key,val){
+  if(window.PB_SHARED?.safeSetItem){
+    return window.PB_SHARED.safeSetItem(key,val,{
+      onError: ()=>{
+        const lang=localStorage.getItem('pb_lang')||'en';
+        const d=I18N[lang]||I18N.zh;
+        showToast(d.cacheWriteFailed || 'Cache write failed, storage may be full');
+      }
+    });
+  }
   try{ localStorage.setItem(key,val); return true; }
   catch(e){
     const lang=localStorage.getItem('pb_lang')||'en';
@@ -473,6 +475,7 @@ function getTemplates(){
 let baselineSeed=null;
 
 function autoGrow(elm){
+  if(window.PB_SHARED?.autoGrow) return window.PB_SHARED.autoGrow(elm,220);
   elm.style.height='auto';
   elm.style.height=Math.min(elm.scrollHeight,220)+'px';
 }
